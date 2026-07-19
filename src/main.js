@@ -15,17 +15,6 @@ function closeEstimate() {
 function showEstimate(service) {
   document.querySelector('#estimate-price').textContent = estimatePrices[service] || '$200–$400';
   document.querySelector('#estimate-service').textContent = `Preliminary range for ${service}`;
-  const confetti = estimateModal.querySelector('.confetti');
-  confetti.replaceChildren();
-  for (let index = 0; index < 60; index += 1) {
-    const piece = document.createElement('i');
-    piece.style.setProperty('--x', `${Math.random() * 100}%`);
-    piece.style.setProperty('--delay', `${Math.random() * 0.5}s`);
-    piece.style.setProperty('--duration', `${1.8 + Math.random() * 1.4}s`);
-    piece.style.setProperty('--rotation', `${Math.random() * 720 - 360}deg`);
-    piece.style.setProperty('--color', ['#17d4ed', '#0e1f33', '#f6b91d', '#5b6a68'][index % 4]);
-    confetti.append(piece);
-  }
   estimateModal.hidden = false;
   document.body.classList.add('modal-open');
   estimateModal.querySelector('.modal-close').focus();
@@ -86,7 +75,7 @@ document.querySelector('#quote-form').addEventListener('submit', async (event) =
     status.innerHTML = 'We couldn\'t save your request. Please call or text <a href="tel:+16092977412">(609) 297-7412</a>.';
   } finally {
     button.disabled = false;
-    button.innerHTML = 'Request My Free Quote <span aria-hidden="true">↗</span>';
+    button.textContent = 'Request My Free Quote';
   }
 });
 
