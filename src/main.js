@@ -27,7 +27,7 @@ document.querySelector('#quote-form').addEventListener('submit', (event) => {
   }
   const data = new FormData(form);
   const message = [
-    'Hi OrbitBoyzz, I would like a free quote.',
+    'Hi Orbit PowerWash, I would like a free quote.',
     '',
     `Name: ${data.get('name')}`,
     `Phone: ${data.get('phone')}`,

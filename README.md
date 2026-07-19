@@ -1,6 +1,6 @@
-# OrbitBoyzz PowerWashing
+# Orbit PowerWash
 
-Responsive single-page marketing site for OrbitBoyzz PowerWashing, serving Plainsboro and West Windsor, New Jersey.
+Responsive single-page marketing site for Orbit PowerWash, serving Plainsboro and West Windsor, New Jersey.
 
 ## Local development
 
@@ -22,4 +22,4 @@ Create a production build with `npm run build`.
 - Pressure-washing photo by Kyle E on Unsplash.
 - Neighborhood aerial photo by Alex Reynolds on Unsplash.
 
-Both are used under the Unsplash License and should be replaced with original OrbitBoyzz project photography when available.
+Both are used under the Unsplash License and should be replaced with original Orbit PowerWash project photography when available.
