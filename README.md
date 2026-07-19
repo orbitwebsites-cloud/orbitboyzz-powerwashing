@@ -13,7 +13,7 @@ Create a production build with `npm run build`.
 
 ## Before launch
 
-- Replace all logo, project photo, phone number, social-link, and insurance-verification placeholders.
+- Replace the temporary logo, project photos, social links, and insurance-verification placeholder.
 - Connect the quote form in `src/main.js` to an email or form submission service.
 
 ## Temporary stock photography
