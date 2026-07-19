@@ -22,7 +22,7 @@ Date | Name | Address/Street | Source | Service | Status | Quote $ | Follow-up D
 - **Name** — first name is fine.
 - **Address / Street** — needed to quote and to cluster knocks/neighbor specials.
 - **Source** — `door` · `network` · `nextdoor` · `facebook` · `marketplace` · `craigslist` · `whatsapp` · `referral` · `gbp`. (Track this so Sunday you know which channel to double down on.)
-- **Service** — `driveway` · `house` · `patio` (or combo).
+- **Service** — `driveway` · `house` · `patio-deck` · `fence` · `bins` (or combo).
 - **Status** — one of the pipeline stages below.
 - **Quote $** — the number you sent (from `sales/pricing-guide.md`).
 - **Follow-up date** — the next date you owe them a touch. Sort by this daily.
@@ -85,6 +85,6 @@ Dead leads: **lost** (only after the follow-up rule below is satisfied) or **no*
 | Date | Name | Address / Street | Source | Service | Status | Quote $ | Follow-up date | Notes |
 |------|------|------|------|------|------|------|------|------|
 | 7/20 | Maria | 14 Maple Ct | door | driveway | booked | (see pricing) | — | Wed 5pm. Neighbor rate if #16 books too |
-| 7/20 | Dev | 16 Maple Ct | door | driveway+patio | quoted | (see pricing) | 7/21 | Maria's neighbor. Sent quote, wants to think |
+| 7/20 | Dev | 16 Maple Ct | door | driveway+patio-deck | quoted | (see pricing) | 7/21 | Maria's neighbor. Sent quote, wants to think |
 | 7/20 | Ana | Ravens Crest area | nextdoor | house | new | — | 7/20 | DM'd, need address. Reply sent 6:42pm |
 | 7/19 | Uncle Sam | 8 Birch Ln | network | driveway | done | (see pricing) | — | First job! Review ask sent |

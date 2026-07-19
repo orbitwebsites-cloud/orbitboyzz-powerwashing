@@ -1,7 +1,7 @@
 # Surfaces & Chemicals Cheat Sheet — Orbit PowerWash
 
 **Orbit PowerWash** | (609) 297-7412 | quote@orbitpowerwash.com
-Service area: Plainsboro & West Windsor, NJ
+Service area: Plainsboro, West Windsor & Ewing, NJ
 
 > Scope reminder: **No roofs, no gutter interiors, no 3-story work.** Chemistry does the cleaning — pressure just rinses. When in doubt, **less pressure, more dwell.**
 
@@ -79,6 +79,21 @@ Service area: Plainsboro & West Windsor, NJ
 - **Dwell:** 5–10 min, keep wet.
 - **Rinse:** Full, uniform.
 - **#1 amateur damage:** **Zebra striping** — use surface cleaner, overlap passes, post-treat to even.
+
+### Vinyl / wood fence — **SOFT WASH ONLY**
+- **Pressure:** **Soft wash — ~100–300 PSI at the nozzle** (black/65° or soft-wash tip) to clean. For a wood fence, **rinse with 40° white, moving with the grain**, tip kept back and moving. Never high pressure on either.
+- **Mix (target ~1–2% SH at surface — same as siding):** 1 gal 12.5% SH : 6–8 gal water (~1.5%) + surfactant; step to 1 : 3–4 (~2.5–3%) for the heavy algae on the shaded side.
+- **Dwell:** 5–10 min, keep wet — **never let SH dry** (streaks).
+- **Rinse:** Rinse **both sides** thoroughly; on wood, rinse **with the grain**. Pre-wet and re-rinse the plantings along the fence line.
+- **#1 amateur damage:** **High pressure furring wood pickets and blowing vinyl panels off their rails.** Vinyl fence panels float in the rails and pop out; wood grain raises and splinters. Soft wash to clean, gentle 40° rinse only.
+
+### Trash bin cleaning (procedure)
+- **Prep:** **Bins must be empty** — schedule right after the customer's pickup day. Bag and set aside any stuck solid residual before washing.
+- **Wash:** **Degrease + wash interior and exterior** — bin brush + degreaser cuts the grease and stuck-on gunk. Get the lid, rim, and handles.
+- **Disinfect + deodorize:** After washing, apply a **disinfectant and deodorizer** so it comes back sanitary and smell-free, not just rinsed.
+- **Drain + dry:** **Tip the bin to drain**, then let it **air-dry** before returning it upright (lid cracked open).
+- **Wash-water disposal (hard rule):** **NEVER let bin wash water run into the storm drain** — it's food/organic waste and it's not allowed. Drain to **grass/landscaping** or the customer's **sanitary sewer cleanout where permitted**.
+- **PPE / cleanup:** **Glove up.** **Bag any residual waste and drop it back into the now-clean bin** (into the customer's liner/bag) — leave nothing behind on their property.
 
 ---
 

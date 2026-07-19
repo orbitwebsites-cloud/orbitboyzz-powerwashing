@@ -1,6 +1,6 @@
 # Orbit PowerWash — Pricing Guide (2026)
 
-Central NJ residential rates (Mercer / Middlesex county suburbs — Plainsboro & West Windsor).
+Central NJ residential rates (Mercer / Middlesex county suburbs — Plainsboro, West Windsor & Ewing).
 For internal use. Quote from these numbers by text. When in doubt, quote the **"Quote this" default**.
 
 **Contact:** (609) 297-7412 (call or text) · quote@orbitpowerwash.com · orbitpowerwash.com
@@ -42,7 +42,7 @@ Low-pressure soft wash with surface-matched detergent. Priced by stories + footp
 
 ---
 
-## 3. Patio / Deck Washing
+## 3. Patio & Deck Washing
 
 Concrete, paver, or wood. Wood and composite get soft-wash pressure only.
 
@@ -56,6 +56,32 @@ Concrete, paver, or wood. Wood and composite get soft-wash pressure only.
 
 ---
 
+## 4. Fence Washing
+
+Vinyl or wood fence, **soft wash only** — high pressure furs wood pickets and knocks vinyl panels off their rails. Priced by the linear foot of fence run (measure the length, not the height).
+
+| Tier | Size | Range | **Quote this** |
+|---|---|---|---|
+| By length | per linear foot | $1.50–$2.50/ln ft | **$2.00/ln ft** |
+| Typical backyard | ~150 ln ft | $225–$375 | **$300** |
+
+**Anchor reasoning:** Fence soft-washing runs about $1.50–$2.50 per linear foot in this market. At **$2.00/ln ft** a standard ~150-ft backyard perimeter is **$300** — a fair solo half-morning once you count both sides, the gates, and rinsing the bed line. The **$150 minimum applies**, so short front-yard runs quote at the floor or, better, get bundled into a bigger visit.
+
+---
+
+## 5. Trash Bin Cleaning (add-on / upsell)
+
+This is primarily an **add-on**, not a standalone service. Attach it to any job you're already on-site for.
+
+| Tier | What | Range | **Quote this** |
+|---|---|---|---|
+| 1 bin | added to any job | $25 | **$25/bin** |
+| 2 bins | added to any job | $40 | **$40 for two** |
+
+**Anchor reasoning:** A bin takes a few minutes once you're already set up on-site, so **$25 tacked onto a driveway or house wash is nearly pure margin and an easy yes**. Two bins at $40 nudges them to do the whole set. **Standalone bin-only visits don't clear the $150 minimum** — even a houseful of bins barely gets there — so only run bins as a solo service when you can **cluster 3+ neighbors on one street in a single trip**: one setup, one drive, several driveways of bins is what makes the route pay; a single stop across town does not. **The founding-customer discount does NOT apply to bin add-ons** — they're already small and favor-priced, and discounting them just gives away margin.
+
+---
+
 ## Minimum Job Charge
 
 **$150 minimum**, any single service. If a quote math's out below $150 (e.g., a tiny patio), quote $150 flat. You still have to load up, drive, set up, and break down — that's the floor. Best move: use the minimum as a nudge to **bundle** (see below).
@@ -64,14 +90,14 @@ Concrete, paver, or wood. Wood and composite get soft-wash pressure only.
 
 ## Bundle Discounts
 
-Stack the visit — one trip, one setup, more revenue.
+Stack the visit — one trip, one setup, more revenue. **Bundle services are Driveway, House, Patio & Deck, and Fence.** **Trash bin cleaning never counts as a bundle service** — it's an add-on priced on top (see section 5), not part of the discount.
 
 | Bundle | Discount |
 |---|---|
-| Driveway + House | **10% off** the combined total |
-| All three (Driveway + House + Patio) | **15% off** the combined total |
+| Any 2 services | **10% off** the combined total |
+| Any 3 or more services | **15% off** the combined total |
 
-**Example:** Colonial house ($450) + 2-car driveway ($150) = $600 → **10% off = $540**.
+**Example:** Colonial house ($450) + 2-car driveway ($150) = $600 → **10% off = $540**. Add a fence ($300) and that's 3 services → **15% off**. Toss two bins on top at **$40** — bins are never discounted.
 
 ---
 
@@ -85,6 +111,7 @@ Stack the visit — one trip, one setup, more revenue.
 - **Does not stack with bundle discounts.** Apply whichever is larger (the 20% founding discount almost always wins). Never apply both.
 - Applies to the **"Quote this" default**, not the bottom of the range. Discount off a fair price, not off a floor price.
 - **Minimum still holds:** never let a founding-discounted job fall below the **$150 minimum**.
+- **Bin add-ons are excluded.** Never discount trash bin cleaning — it's already small and favor-priced (see section 5). The founding discount applies only to the real services.
 - It expires. Say "this week" or "for my first 10 jobs" so it has a real edge (see follow-up doc).
 
 **Example:** Standard colonial default $450 → founding 20% off = **$360**. Still a solid solo half-day. Fair, not desperate.
