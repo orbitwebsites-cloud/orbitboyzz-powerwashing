@@ -25,7 +25,19 @@ document.querySelector('#quote-form').addEventListener('submit', (event) => {
     status.textContent = 'Please complete the required fields above.';
     return;
   }
-  status.textContent = 'Form ready — connect your email or form service before launch to receive requests.';
+  const data = new FormData(form);
+  const message = [
+    'Hi OrbitBoyzz, I would like a free quote.',
+    '',
+    `Name: ${data.get('name')}`,
+    `Phone: ${data.get('phone')}`,
+    `Address: ${data.get('address')}`,
+    `Service: ${data.get('service')}`,
+    `Details: ${data.get('message') || 'None provided'}`,
+  ].join('\n');
+
+  status.textContent = 'Opening your text message app…';
+  window.location.href = `sms:+16092977412?&body=${encodeURIComponent(message)}`;
 });
 
 document.querySelectorAll('.socials a').forEach((link) => link.addEventListener('click', (event) => event.preventDefault()));

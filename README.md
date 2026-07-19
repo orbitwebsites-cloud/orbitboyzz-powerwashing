@@ -20,5 +20,6 @@ Create a production build with `npm run build`.
 
 - Suburban exterior by Osmany M Leyva Aldana on Unsplash.
 - Pressure-washing photo by Kyle E on Unsplash.
+- Neighborhood aerial photo by Alex Reynolds on Unsplash.
 
 Both are used under the Unsplash License and should be replaced with original OrbitBoyzz project photography when available.
