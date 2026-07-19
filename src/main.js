@@ -23,7 +23,7 @@ function showEstimate(service) {
     piece.style.setProperty('--delay', `${Math.random() * 0.5}s`);
     piece.style.setProperty('--duration', `${1.8 + Math.random() * 1.4}s`);
     piece.style.setProperty('--rotation', `${Math.random() * 720 - 360}deg`);
-    piece.style.setProperty('--color', ['#17d4ed', '#0b1e3d', '#63e8f6', '#f6b91d'][index % 4]);
+    piece.style.setProperty('--color', ['#17d4ed', '#0e1f33', '#f6b91d', '#5b6a68'][index % 4]);
     confetti.append(piece);
   }
   estimateModal.hidden = false;
