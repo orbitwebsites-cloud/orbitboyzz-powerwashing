@@ -14,7 +14,7 @@ Create a production build with `npm run build`.
 ## Before launch
 
 - Replace the temporary logo, project photos, social links, and insurance-verification placeholder.
-- Connect the quote form in `src/main.js` to an email or form submission service.
+- The quote form sends leads to `quotes@orbitpowerwash.com` through FormSubmit. Submit it once after deployment and confirm the activation email before launch.
 
 ## Temporary stock photography
 
