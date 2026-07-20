@@ -33,6 +33,7 @@
             <a href="#how">How it works</a>
             <a href="#why-us">Why us</a>
             <a href="#area">Service area</a>
+            <a href="#estimator">Estimate</a>
             <a href="#faq">FAQ</a>
             <a class="nav-phone" href="tel:+16092977412" aria-label="Call or text (609) 297-7412">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 2.5H3.9A1.4 1.4 0 0 0 2.5 4c0 8.6 6.9 15.5 15.5 15.5A1.4 1.4 0 0 0 19.5 18v-2.6a1.4 1.4 0 0 0-1-1.3l-2.9-.8a1.4 1.4 0 0 0-1.5.5l-.6.8a11.6 11.6 0 0 1-5-5l.8-.6a1.4 1.4 0 0 0 .5-1.5l-.8-2.9a1.4 1.4 0 0 0-1.4-1Z"/></svg>
@@ -333,6 +334,149 @@
         </div>
       </section>
 
+      <!-- PRICE ESTIMATOR -->
+      <section class="estimator section" id="estimator">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Ballpark it yourself</p>
+              <h2>Estimate your price.</h2>
+            </div>
+            <p class="section-sub">Pick what needs washing and watch a live preliminary range build. It's a ballpark — text a couple of photos for your exact price the same day.</p>
+          </div>
+
+          <div class="estimator-grid">
+            <div class="estimator-controls">
+              <fieldset class="est-fieldset">
+                <legend class="est-legend">Choose one or more services</legend>
+
+                <!-- Driveway -->
+                <div class="est-service">
+                  <label class="est-toggle">
+                    <input class="est-check" type="checkbox" data-est-service="Driveway Washing" aria-controls="est-opts-driveway" />
+                    <span class="est-toggle-main">
+                      <span class="est-toggle-title">Driveway Washing</span>
+                      <span class="est-toggle-hint">Concrete &amp; pavers</span>
+                    </span>
+                    <span class="est-toggle-price">$130–$425</span>
+                  </label>
+                  <div class="est-options" id="est-opts-driveway" hidden>
+                    <fieldset class="est-opt-set">
+                      <legend>Driveway size</legend>
+                      <label class="est-radio"><input type="radio" name="opt-driveway" value="2car" checked /><span class="est-radio-label">2-car <small>~600 sq ft</small></span><span class="est-radio-price">$130–$180</span></label>
+                      <label class="est-radio"><input type="radio" name="opt-driveway" value="3car" /><span class="est-radio-label">3-car <small>~900–1,000 sq ft</small></span><span class="est-radio-price">$180–$260</span></label>
+                      <label class="est-radio"><input type="radio" name="opt-driveway" value="long" /><span class="est-radio-label">Long / extended <small>1,200+ sq ft</small></span><span class="est-radio-price">$280–$425</span></label>
+                    </fieldset>
+                  </div>
+                </div>
+
+                <!-- House -->
+                <div class="est-service">
+                  <label class="est-toggle">
+                    <input class="est-check" type="checkbox" data-est-service="House Washing" aria-controls="est-opts-house" />
+                    <span class="est-toggle-main">
+                      <span class="est-toggle-title">House Washing <small>Soft wash</small></span>
+                      <span class="est-toggle-hint">Siding-safe soft wash</span>
+                    </span>
+                    <span class="est-toggle-price">$250–$775</span>
+                  </label>
+                  <div class="est-options" id="est-opts-house" hidden>
+                    <fieldset class="est-opt-set">
+                      <legend>Home size</legend>
+                      <label class="est-radio"><input type="radio" name="opt-house" value="ranch" checked /><span class="est-radio-label">Ranch / 1-story <small>~1,200–1,600 sq ft</small></span><span class="est-radio-price">$250–$375</span></label>
+                      <label class="est-radio"><input type="radio" name="opt-house" value="colonial" /><span class="est-radio-label">2-story colonial <small>~2,000–2,800 sq ft</small></span><span class="est-radio-price">$375–$550</span></label>
+                      <label class="est-radio"><input type="radio" name="opt-house" value="larger" /><span class="est-radio-label">Larger 2-story <small>3,000+ sq ft</small></span><span class="est-radio-price">$550–$775</span></label>
+                    </fieldset>
+                  </div>
+                </div>
+
+                <!-- Patio & Deck -->
+                <div class="est-service">
+                  <label class="est-toggle">
+                    <input class="est-check" type="checkbox" data-est-service="Patio &amp; Deck Washing" aria-controls="est-opts-patio" />
+                    <span class="est-toggle-main">
+                      <span class="est-toggle-title">Patio &amp; Deck Washing</span>
+                      <span class="est-toggle-hint">Concrete, pavers, wood &amp; composite</span>
+                    </span>
+                    <span class="est-toggle-price">$110–$425</span>
+                  </label>
+                  <div class="est-options" id="est-opts-patio" hidden>
+                    <fieldset class="est-opt-set">
+                      <legend>Patio / deck size</legend>
+                      <label class="est-radio"><input type="radio" name="opt-patio" value="small" checked /><span class="est-radio-label">Small <small>up to ~200 sq ft</small></span><span class="est-radio-price">$110–$160</span></label>
+                      <label class="est-radio"><input type="radio" name="opt-patio" value="medium" /><span class="est-radio-label">Medium <small>~200–400 sq ft</small></span><span class="est-radio-price">$160–$260</span></label>
+                      <label class="est-radio"><input type="radio" name="opt-patio" value="large" /><span class="est-radio-label">Large <small>~400–700 sq ft</small></span><span class="est-radio-price">$260–$425</span></label>
+                    </fieldset>
+                  </div>
+                </div>
+
+                <!-- Fence -->
+                <div class="est-service">
+                  <label class="est-toggle">
+                    <input class="est-check" type="checkbox" data-est-service="Fence Washing" aria-controls="est-opts-fence" />
+                    <span class="est-toggle-main">
+                      <span class="est-toggle-title">Fence Washing</span>
+                      <span class="est-toggle-hint">Priced by length · $150 minimum</span>
+                    </span>
+                    <span class="est-toggle-price">≈ $2/ft</span>
+                  </label>
+                  <div class="est-options" id="est-opts-fence" hidden>
+                    <div class="est-opt-set">
+                      <label class="est-number" for="est-fence-ft">Fence length
+                        <span class="est-number-field">
+                          <input id="est-fence-ft" type="number" inputmode="numeric" min="0" step="10" value="150" />
+                          <span class="est-number-unit">linear ft</span>
+                        </span>
+                      </label>
+                      <p class="est-opt-note">Measure the run, not the height. Short runs land at the $150 minimum.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Trash bins -->
+                <div class="est-service">
+                  <label class="est-toggle">
+                    <input class="est-check" type="checkbox" data-est-service="Trash Bin Cleaning" aria-controls="est-opts-bins" />
+                    <span class="est-toggle-main">
+                      <span class="est-toggle-title">Trash Bin Cleaning</span>
+                      <span class="est-toggle-hint">Add-on · washed &amp; deodorized</span>
+                    </span>
+                    <span class="est-toggle-price">from $25</span>
+                  </label>
+                  <div class="est-options" id="est-opts-bins" hidden>
+                    <div class="est-opt-set">
+                      <label class="est-number" for="est-bin-count">How many bins?
+                        <span class="est-number-field">
+                          <input id="est-bin-count" type="number" inputmode="numeric" min="1" step="1" value="1" />
+                          <span class="est-number-unit">bins</span>
+                        </span>
+                      </label>
+                      <p class="est-opt-note">1 bin $25 · 2 bins $40 · 3+ bins $20 each. Bins are an add-on and aren't discounted.</p>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+
+            <aside class="estimator-summary" aria-label="Your running estimate">
+              <div class="est-summary-card">
+                <p class="eyebrow eyebrow-light">Your estimate</p>
+                <p class="est-total" id="est-total" aria-live="polite" aria-atomic="true">
+                  <span class="est-total-empty">Pick a service to see your range.</span>
+                </p>
+                <p class="est-ballpark">This is a ballpark. <strong>Text a couple of photos for your exact price — same day.</strong> <a href="tel:+16092977412">(609)&nbsp;297-7412</a></p>
+                <ul class="est-lines" id="est-lines"></ul>
+                <p class="est-note est-note--min" id="est-min-note" hidden></p>
+                <p class="est-note est-note--bundle" id="est-bundle-note" hidden></p>
+                <p class="est-note est-note--founding" id="est-founding-note" hidden><span aria-hidden="true">★</span> Our first 10 jobs get founding-customer pricing — mention it when you reach out.</p>
+                <button class="button est-cta" type="button" id="est-cta">Get My Exact Quote</button>
+                <p class="est-fineprint">Preliminary only — surface, condition, access &amp; water all affect the final price, which we confirm before any work begins.</p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
       <!-- QUOTE -->
       <section class="quote section" id="quote">
         <div class="container quote-grid">
@@ -422,24 +566,6 @@
         <p>Clean surfaces. Clear standards.</p>
       </div>
     </footer>
-
-    <!-- ESTIMATE MODAL -->
-    <div class="estimate-modal" id="estimate-modal" role="dialog" aria-modal="true" aria-labelledby="estimate-title" hidden>
-      <div class="estimate-card" role="document">
-        <button class="modal-close" type="button" aria-label="Close estimate">×</button>
-        <span class="success-icon" aria-hidden="true">✓</span>
-        <p class="eyebrow">Request received</p>
-        <h2 id="estimate-title">Your preliminary range</h2>
-        <strong class="estimate-price" id="estimate-price">$150–$400</strong>
-        <p class="estimate-service" id="estimate-service"></p>
-        <p class="estimate-disclaimer">This is a preliminary range, not a final quote. Surface size, condition, access and water availability all affect the exact price — which we'll confirm before any work begins.</p>
-        <div class="estimate-next">
-          <span>What happens next</span>
-          <p>We'll review your details and reach out to confirm your exact price and schedule. Founding-customer pricing applies to our first 10 jobs.</p>
-        </div>
-        <button class="button modal-done" type="button">Sounds good</button>
-      </div>
-    </div>
 
     <script type="module" src="/src/main.js"></script>
   </body>
