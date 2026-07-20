@@ -1,6 +1,6 @@
 # Orbit PowerWash
 
-Responsive single-page marketing site for Orbit PowerWash, serving Plainsboro and West Windsor, New Jersey.
+Responsive React marketing site for Orbit PowerWash, serving Plainsboro and West Windsor, New Jersey.
 
 ## Local development
 
@@ -11,10 +11,10 @@ npm run dev
 
 Create a production build with `npm run build`.
 
-## Before launch
+## Launch checklist
 
-- Replace the temporary logo, project photos, social links, and insurance-verification placeholder.
-- The quote form sends leads to `quotes@orbitpowerwash.com` through FormSubmit. Submit it once after deployment and confirm the activation email before launch.
+- The quote form sends leads to `quotes@orbitpowerwash.com` through FormSubmit. Submit it once on the production site and confirm the activation email before accepting leads.
+- Replace the licensed stock photography with original Orbit PowerWash project photos when they are available.
 
 ## Temporary stock photography
 
@@ -22,4 +22,4 @@ Create a production build with `npm run build`.
 - Pressure-washing photo by Kyle E on Unsplash.
 - Neighborhood aerial photo by Alex Reynolds on Unsplash.
 
-Both are used under the Unsplash License and should be replaced with original Orbit PowerWash project photography when available.
+These images are used under the Unsplash License. The before-and-after graphic is an illustrative marketing asset, not a customer job photo.

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbit PowerWash Carousel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/social/carousel.css" />
+  </head>
+  <body>
+    <main class="slide" data-slide="1">
+      <img class="photo full-photo" src="/images/door-hanger-before-after.png" alt="" />
+      <div class="photo-shade"></div>
+      <div class="orbit-art"><span></span><span></span></div>
+      <header><div class="brand"><span class="logo"><img src="/images/orbit-powerwash-logo.png" alt="" /></span><span>Orbit <small>PowerWash</small></span></div><b>01 / 05</b></header>
+      <div class="hook-copy"><span class="kicker">THE CURB APPEAL CHECK</span><h1>Your driveway is <em>dirtier than you think.</em></h1><p>Swipe to see what buildup can hide in plain sight.</p></div>
+      <div class="swipe">SWIPE TO SEE THE DIFFERENCE <i>→</i></div>
+    </main>
+
+    <main class="slide" data-slide="2">
+      <img class="photo dirty-photo" src="/images/door-hanger-before-after.png" alt="" />
+      <div class="photo-shade bottom"></div>
+      <header><div class="brand"><span class="logo"><img src="/images/orbit-powerwash-logo.png" alt="" /></span><span>Orbit <small>PowerWash</small></span></div><b>02 / 05</b></header>
+      <div class="corner-label dark-label"><span></span> BEFORE</div>
+      <div class="bottom-copy"><h2>This is what buildup can look like after one season.</h2><p>Dirt, weather, and organic growth slowly dull the surface.</p></div>
+    </main>
+
+    <main class="slide" data-slide="3">
+      <img class="photo clean-photo" src="/images/door-hanger-before-after.png" alt="" />
+      <div class="photo-shade bottom"></div>
+      <header><div class="brand"><span class="logo"><img src="/images/orbit-powerwash-logo.png" alt="" /></span><span>Orbit <small>PowerWash</small></span></div><b>03 / 05</b></header>
+      <div class="corner-label cyan-label"><span></span> AFTER</div>
+      <div class="bottom-copy"><h2>This is what a professional Orbit clean can look like.</h2><p>A brighter driveway changes the whole first impression.</p></div>
+    </main>
+
+    <main class="slide offer-slide" data-slide="4">
+      <div class="offer-glow"></div><div class="orbit-art offer-rings"><span></span><span></span></div>
+      <header><div class="brand"><span class="logo"><img src="/images/orbit-powerwash-logo.png" alt="" /></span><span>Orbit <small>PowerWash</small></span></div><b>04 / 05</b></header>
+      <div class="offer-copy"><span class="kicker">LOCAL LAUNCH OFFER</span><h2><strong>20%</strong> OFF</h2><p>Book your exterior cleaning by <b>July 26, 2026.</b></p></div>
+      <div class="service-pills"><span>Driveways</span><span>House Exteriors</span><span>Patios</span></div>
+      <div class="offer-note"><i>✦</i><div><small>NOW BOOKING</small><strong>Plainsboro + West Windsor</strong></div></div>
+    </main>
+
+    <main class="slide cta-slide" data-slide="5">
+      <div class="cta-top"><div class="orbit-art cta-rings"><span></span><span></span></div><header><div class="brand"><span class="logo"><img src="/images/orbit-powerwash-logo.png" alt="" /></span><span>Orbit <small>PowerWash</small></span></div><b>05 / 05</b></header><div class="cta-copy"><span class="kicker">READY FOR A FRESH START?</span><h2>DM us or comment <em>“CLEAN”</em></h2><p>We’ll follow up to confirm your service, quote, and scheduling.</p></div></div>
+      <div class="cta-bottom"><div><small>CALL OR TEXT</small><strong>(609) 297-7412</strong></div><div><small>SERVING</small><strong>Plainsboro + West Windsor, NJ</strong></div><span class="cta-arrow">↗</span></div>
+    </main>
+
+    <script>
+      const selected = new URLSearchParams(window.location.search).get('slide') || '1';
+      document.querySelectorAll('[data-slide]').forEach((slide) => { slide.hidden = slide.dataset.slide !== selected; });
+    </script>
+  </body>
+</html>

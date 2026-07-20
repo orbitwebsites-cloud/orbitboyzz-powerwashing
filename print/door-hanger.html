@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbit PowerWash Door Hanger</title>
+    <style>
+      :root {
+        --navy: #0b1e3d;
+        --cyan: #11c7e8;
+        --ink: #10203f;
+        --muted: #52657f;
+        --paper: #ffffff;
+        --line: #d9e5ef;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #eef6fa;
+        color: var(--ink);
+        font-family: Montserrat, Poppins, Arial, sans-serif;
+      }
+
+      .sheet {
+        display: grid;
+        gap: 32px;
+        justify-content: center;
+        padding: 32px;
+      }
+
+      .hanger {
+        position: relative;
+        width: 4in;
+        height: 9in;
+        overflow: hidden;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 0.18in;
+        box-shadow: 0 20px 60px rgba(11, 30, 61, 0.16);
+      }
+
+      .hanger::before {
+        content: "";
+        position: absolute;
+        top: 0.22in;
+        left: 50%;
+        width: 0.72in;
+        height: 0.72in;
+        transform: translateX(-50%);
+        border: 1px dashed rgba(11, 30, 61, 0.35);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.72);
+        z-index: 5;
+      }
+
+      .hanger::after {
+        content: "";
+        position: absolute;
+        top: 0.58in;
+        left: 50%;
+        width: 0.48in;
+        height: 1px;
+        transform: translateX(-50%);
+        border-top: 1px dashed rgba(11, 30, 61, 0.35);
+        z-index: 6;
+      }
+
+      .front {
+        color: #fff;
+        background: var(--navy);
+      }
+
+      .hero-photo {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .front .shade {
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(180deg, rgba(11, 30, 61, 0.7) 0%, rgba(11, 30, 61, 0.36) 38%, rgba(11, 30, 61, 0.92) 100%),
+          radial-gradient(circle at 80% 14%, rgba(17, 199, 232, 0.34), transparent 32%);
+      }
+
+      .front-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        min-height: 100%;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1.18in 0.32in 0.34in;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.1in;
+        margin-bottom: auto;
+      }
+
+      .brand img {
+        width: 0.42in;
+        height: 0.42in;
+        object-fit: contain;
+      }
+
+      .brand-name {
+        font-size: 0.22in;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      .brand-service {
+        margin-top: 0.03in;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.105in;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .eyebrow {
+        color: var(--cyan);
+        font-size: 0.12in;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        margin-top: 0.1in;
+        font-size: 0.43in;
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .offer {
+        margin: 0.25in 0 0.18in;
+        padding: 0.16in 0.18in;
+        color: var(--navy);
+        background: #fff;
+        border-left: 0.08in solid var(--cyan);
+      }
+
+      .offer strong {
+        display: block;
+        color: var(--navy);
+        font-size: 0.48in;
+        font-weight: 900;
+        line-height: 0.9;
+      }
+
+      .offer span {
+        display: block;
+        margin-top: 0.04in;
+        color: var(--muted);
+        font-size: 0.14in;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .services {
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 0.16in;
+        font-weight: 800;
+        line-height: 1.35;
+      }
+
+      .phone {
+        display: block;
+        margin-top: 0.22in;
+        padding: 0.14in 0.16in;
+        color: var(--navy);
+        background: var(--cyan);
+        border-radius: 999px;
+        font-size: 0.24in;
+        font-weight: 900;
+        line-height: 1;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .valid {
+        margin-top: 0.16in;
+        color: rgba(255, 255, 255, 0.76);
+        font-size: 0.1in;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .back {
+        padding: 1.15in 0.32in 0.35in;
+      }
+
+      .back .brand {
+        color: var(--navy);
+      }
+
+      .back .brand-service {
+        color: var(--muted);
+      }
+
+      .back h2 {
+        margin-top: 0.42in;
+        color: var(--navy);
+        font-size: 0.36in;
+        font-weight: 900;
+        line-height: 1;
+      }
+
+      .back-copy {
+        margin-top: 0.18in;
+        color: var(--muted);
+        font-size: 0.16in;
+        font-weight: 600;
+        line-height: 1.35;
+      }
+
+      .bullets {
+        display: grid;
+        gap: 0.1in;
+        margin: 0.25in 0;
+      }
+
+      .bullet {
+        display: grid;
+        grid-template-columns: 0.26in 1fr;
+        gap: 0.1in;
+        align-items: center;
+        color: var(--ink);
+        font-size: 0.14in;
+        font-weight: 800;
+      }
+
+      .check {
+        display: grid;
+        width: 0.26in;
+        height: 0.26in;
+        place-items: center;
+        color: #fff;
+        background: var(--cyan);
+        border-radius: 999px;
+        font-size: 0.13in;
+        font-weight: 900;
+      }
+
+      .qr-row {
+        display: grid;
+        grid-template-columns: 1.12in 1fr;
+        gap: 0.16in;
+        align-items: center;
+        margin-top: 0.3in;
+        padding: 0.16in;
+        border: 1px solid var(--line);
+        border-radius: 0.12in;
+      }
+
+      .qr {
+        display: grid;
+        width: 1.02in;
+        height: 1.02in;
+        place-items: center;
+        color: var(--muted);
+        background:
+          linear-gradient(90deg, rgba(11, 30, 61, 0.1) 50%, transparent 50%),
+          linear-gradient(rgba(11, 30, 61, 0.1) 50%, transparent 50%);
+        background-color: #fff;
+        background-size: 0.12in 0.12in;
+        border: 2px solid var(--navy);
+        font-size: 0.09in;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .qr-copy {
+        color: var(--ink);
+        font-size: 0.125in;
+        font-weight: 800;
+        line-height: 1.25;
+      }
+
+      .back .phone {
+        margin-top: 0.3in;
+      }
+
+      .area {
+        margin-top: 0.16in;
+        color: var(--muted);
+        font-size: 0.105in;
+        font-weight: 800;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .fine-print {
+        position: absolute;
+        right: 0.3in;
+        bottom: 0.18in;
+        left: 0.3in;
+        color: #77869a;
+        font-size: 0.075in;
+        line-height: 1.25;
+        text-align: center;
+      }
+
+      @page {
+        size: 4in 9in;
+        margin: 0;
+      }
+
+      @media print {
+        body {
+          background: #fff;
+        }
+
+        .sheet {
+          display: block;
+          padding: 0;
+        }
+
+        .hanger {
+          width: 4in;
+          height: 9in;
+          border: 0;
+          border-radius: 0;
+          box-shadow: none;
+          page-break-after: always;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="sheet">
+      <section class="hanger front" aria-label="Door hanger front">
+        <img class="hero-photo" src="../public/images/door-hanger-before-after.png" alt="" />
+        <div class="shade"></div>
+        <div class="front-content">
+          <div class="brand">
+            <img src="../public/images/orbit-powerwash-logo.png" alt="" />
+            <div>
+              <div class="brand-name">Orbit PowerWash</div>
+              <div class="brand-service">Pressure Washing</div>
+            </div>
+          </div>
+
+          <p class="eyebrow">Working on your street this week</p>
+          <h1>Fresh curb appeal starts here.</h1>
+
+          <div class="offer">
+            <strong>20% OFF</strong>
+            <span>First exterior clean</span>
+          </div>
+
+          <p class="services">Driveways • House Exteriors • Patios</p>
+          <a class="phone" href="tel:+16092977412">(609) 297-7412</a>
+          <p class="valid">Offer valid through August 31, 2026</p>
+        </div>
+      </section>
+
+      <section class="hanger back" aria-label="Door hanger back">
+        <div class="brand">
+          <img src="../public/images/orbit-powerwash-logo.png" alt="" />
+          <div>
+            <div class="brand-name">Orbit PowerWash</div>
+            <div class="brand-service">Plainsboro & West Windsor, NJ</div>
+          </div>
+        </div>
+
+        <h2>Free quotes on the spot.</h2>
+        <p class="back-copy">
+          Local exterior cleaning for driveways, house exteriors, and patios. Call or text for fast scheduling.
+        </p>
+
+        <div class="bullets">
+          <div class="bullet"><span class="check">✓</span><span>Locally owned and operated</span></div>
+          <div class="bullet"><span class="check">✓</span><span>Satisfaction guaranteed</span></div>
+          <div class="bullet"><span class="check">✓</span><span>Fast, reliable scheduling</span></div>
+          <div class="bullet"><span class="check">✓</span><span>Fully insured placeholder</span></div>
+        </div>
+
+        <div class="qr-row">
+          <div class="qr">QR<br />Code</div>
+          <p class="qr-copy">Replace this box with a booking, quote, or call QR code before printing.</p>
+        </div>
+
+        <a class="phone" href="tel:+16092977412">(609) 297-7412</a>
+        <p class="area">orbitpowerwash.com</p>
+
+        <p class="fine-print">New customers only. Final pricing depends on size, condition, water access, and service details.</p>
+      </section>
+    </main>
+  </body>
+</html>
