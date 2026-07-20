@@ -13,8 +13,8 @@ Create a production build with `npm run build`.
 
 ## Before launch
 
-- Replace the temporary logo, project photos, social links, and insurance-verification placeholder.
-- The quote form sends leads to `quotes@orbitpowerwash.com` through FormSubmit. Submit it once after deployment and confirm the activation email before launch.
+- **Re-activate FormSubmit for the new address.** The quote form now posts to `quote@orbitpowerwash.com` (the canonical address — note: **no "s"**; it previously pointed at `quotes@orbitpowerwash.com`). FormSubmit activation is per-address, so the old activation does **not** carry over. Submit the live form once, then open the confirmation email FormSubmit sends to `quote@orbitpowerwash.com` and click the activation link. **Until that is done, every lead silently fails** — no error is shown to the visitor. Verify by submitting a real test and confirming it lands in the inbox.
+- Replace the temporary project photos, social links, and Google review link placeholder.
 
 ## Temporary stock photography
 
