@@ -1,6 +1,7 @@
 import { AnimatePresence, MotionConfig, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import React from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { captureAnalytics } from './analytics';
 
 const services = [
   { number: '01', name: 'Driveway Washing', description: 'Lift away surface dirt and buildup for a cleaner, brighter welcome home.', icon: 'M3 17h18M5 17l2-7h10l2 7M8 10V7h8v3M7 21h10' },
@@ -37,6 +38,26 @@ function Reveal({ children, className = '', delay = 0, as = 'div', ...props }) {
   );
 }
 
+function AnalyticsTracker() {
+  useEffect(() => {
+    const trackLink = (event) => {
+      const link = event.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href') || '';
+      const properties = {
+        location: link.dataset.analyticsLocation || 'unknown',
+        cta_text: link.textContent.trim().replace(/\s+/g, ' '),
+      };
+      if (href.startsWith('tel:')) captureAnalytics('phone_cta_clicked', properties);
+      if (href === '#quote') captureAnalytics('quote_cta_clicked', { ...properties, service: link.dataset.analyticsService || null });
+    };
+    document.addEventListener('click', trackLink);
+    return () => document.removeEventListener('click', trackLink);
+  }, []);
+
+  return null;
+}
+
 function Brand({ footer = false }) {
   return (
     <a className={`brand${footer ? ' footer-brand' : ''}`} href="#top" aria-label="Orbit PowerWash home">
@@ -67,7 +88,7 @@ function Header() {
           </motion.button>
           <div className={`nav-links${menuOpen ? ' open' : ''}`} id="nav-links">
             {['Services', 'Why us', 'Service area', 'FAQ'].map((label) => <a key={label} href={`#${label.toLowerCase().replaceAll(' ', '-')}`} onClick={() => setMenuOpen(false)}>{label}</a>)}
-            <motion.a className="button button-small" href="#quote" onClick={() => setMenuOpen(false)} whileHover={{ y: -2, scale: 1.02 }} whileTap={{ scale: 0.97 }}>Get a Free Quote</motion.a>
+            <motion.a className="button button-small" href="#quote" data-analytics-location="header" onClick={() => setMenuOpen(false)} whileHover={{ y: -2, scale: 1.02 }} whileTap={{ scale: 0.97 }}>Get a Free Quote</motion.a>
           </div>
         </nav>
       </div>
@@ -91,8 +112,8 @@ function Hero() {
           <motion.h1 variants={heroItem}>A cleaner home starts <em>at the curb.</em></motion.h1>
           <motion.p className="hero-lead" variants={heroItem}>Professional driveway, house, and patio washing—with clear quotes, careful work, and local service.</motion.p>
           <motion.div className="hero-actions" variants={heroItem}>
-            <motion.a className="button" href="#quote" whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }}>Get a Free Quote <span aria-hidden="true">↗</span></motion.a>
-            <motion.a className="button button-ghost" href="tel:+16092977412" whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}>Call (609) 297-7412</motion.a>
+            <motion.a className="button" href="#quote" data-analytics-location="hero" whileHover={{ y: -3, scale: 1.02 }} whileTap={{ scale: 0.97 }}>Get a Free Quote <span aria-hidden="true">↗</span></motion.a>
+            <motion.a className="button button-ghost" href="tel:+16092977412" data-analytics-location="hero" whileHover={{ y: -3 }} whileTap={{ scale: 0.97 }}>Call (609) 297-7412</motion.a>
           </motion.div>
           <motion.div className="trust-row" aria-label="Service highlights" variants={heroItem}>
             <span><i aria-hidden="true">✓</i><b>Free</b> quotes</span><span><i aria-hidden="true">✓</i><b>Local</b> ownership</span><span><i aria-hidden="true">✓</i><b>Careful</b> work</span>
@@ -116,7 +137,7 @@ function Services({ onSelect }) {
         <div className="service-grid">
           {services.map((service, index) => (
             <motion.article className={`service-card${service.featured ? ' featured' : ''}`} key={service.name} initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={reveal} transition={{ delay: index * 0.1 }} whileHover={{ y: -10 }}>
-              <span className="card-number">{service.number}</span><motion.div className="icon-wrap" aria-hidden="true" whileHover={{ rotate: -5, scale: 1.06 }}><svg viewBox="0 0 24 24"><path d={service.icon} /></svg></motion.div><h3>{service.name}</h3><p>{service.description}</p><a href="#quote" onClick={() => onSelect(service.name)}>Request this service <span>↗</span></a>
+              <span className="card-number">{service.number}</span><motion.div className="icon-wrap" aria-hidden="true" whileHover={{ rotate: -5, scale: 1.06 }}><svg viewBox="0 0 24 24"><path d={service.icon} /></svg></motion.div><h3>{service.name}</h3><p>{service.description}</p><a href="#quote" data-analytics-location="service_card" data-analytics-service={service.name} onClick={() => onSelect(service.name)}>Request this service <span>↗</span></a>
             </motion.article>
           ))}
         </div>
@@ -228,29 +249,32 @@ function Quote({ selectedService, onSelect, onSuccess }) {
   async function submit(event) {
     event.preventDefault();
     const form = event.currentTarget;
-    if (!form.checkValidity()) { form.reportValidity(); setStatus('Please complete the required fields above.'); return; }
+    if (!form.checkValidity()) { captureAnalytics('quote_request_validation_failed', { service: selectedService || null }); form.reportValidity(); setStatus('Please complete the required fields above.'); return; }
     const data = Object.fromEntries(new FormData(form));
     data._subject = `New ${data.service} quote request from ${data.name}`;
     data._template = 'table'; data._replyto = data.email;
+    captureAnalytics('quote_request_attempted', { service: data.service });
     setSending(true); setStatus('');
     try {
       const response = await fetch('https://formsubmit.co/ajax/quotes@orbitpowerwash.com', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
       const result = await response.json();
       if (!response.ok || result.success === false) throw new Error('Submission failed');
       const submitButton = form.querySelector('button[type="submit"]');
+      captureAnalytics('quote_request_submitted', { service: data.service });
       form.reset(); onSelect(''); setStatus('Thanks! Your quote request was saved and sent to Orbit PowerWash.'); onSuccess(data.service, submitButton);
     } catch {
+      captureAnalytics('quote_request_failed', { service: data.service });
       setStatus(<>We couldn’t save your request. Please call or text <a href="tel:+16092977412">(609) 297-7412</a>.</>);
     } finally { setSending(false); }
   }
 
-  return <section className="quote section" id="quote"><div className="container quote-grid"><Reveal className="quote-copy"><p className="eyebrow light"><span></span> Free, no-pressure estimate</p><h2>Let’s get your exterior looking fresh.</h2><p>Share a few details and we’ll follow up directly to confirm scope, pricing, and scheduling.</p><div className="quote-promises"><span><i>✓</i>No obligation</span><span><i>✓</i>Used only for your quote</span><span><i>✓</i>Direct local follow-up</span></div><motion.a className="phone-card" href="tel:+16092977412" whileHover={{ y: -3 }}><span>Prefer to talk?</span><strong>(609) 297-7412</strong><small>Call or text Orbit PowerWash</small></motion.a></Reveal>
+  return <section className="quote section" id="quote"><div className="container quote-grid"><Reveal className="quote-copy"><p className="eyebrow light"><span></span> Free, no-pressure estimate</p><h2>Let’s get your exterior looking fresh.</h2><p>Share a few details and we’ll follow up directly to confirm scope, pricing, and scheduling.</p><div className="quote-promises"><span><i>✓</i>No obligation</span><span><i>✓</i>Used only for your quote</span><span><i>✓</i>Direct local follow-up</span></div><motion.a className="phone-card" href="tel:+16092977412" data-analytics-location="quote_section" whileHover={{ y: -3 }}><span>Prefer to talk?</span><strong>(609) 297-7412</strong><small>Call or text Orbit PowerWash</small></motion.a></Reveal>
     <Reveal as="form" className={`quote-form${status && typeof status === 'string' && status.startsWith('Please') ? ' form-error' : ''}`} delay={0.08} onSubmit={submit} noValidate><input hidden type="text" name="_honey" tabIndex="-1" autoComplete="off" /><div className="form-row"><label>Name<input type="text" name="name" autoComplete="name" required placeholder="Your name" /></label><label>Phone<input type="tel" name="phone" autoComplete="tel" required placeholder="(555) 555-5555" /></label></div><label>Email<input type="email" name="email" autoComplete="email" required placeholder="you@example.com" /></label><label>Service address<input type="text" name="address" autoComplete="street-address" required placeholder="Street address, city, NJ" /></label><label>Service needed<select name="service" required value={selectedService} onChange={(event) => onSelect(event.target.value)}><option value="">Choose a service</option>{services.map((service) => <option key={service.name}>{service.name}</option>)}</select></label><label>Anything else we should know?<textarea name="message" rows="4" placeholder="Tell us about the area you'd like cleaned..."></textarea></label><motion.button className="button submit-button" type="submit" disabled={sending} whileTap={{ scale: 0.98 }}>{sending ? <><span className="button-spinner" aria-hidden="true"></span>Sending your request…</> : <>Request My Free Quote <span aria-hidden="true">↗</span></>}</motion.button><p className="form-note">Your information is used only to respond to your request. Prefer to talk? Call or text <a href="tel:+16092977412">(609) 297-7412</a>.</p><AnimatePresence mode="wait"><motion.output key={String(status)} className="form-status" aria-live="polite" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>{status}</motion.output></AnimatePresence></Reveal>
   </div></section>;
 }
 
 function Footer() {
-  return <footer><div className="container footer-grid"><Brand footer /><div><span>Serving</span><p>Plainsboro &amp; West Windsor, NJ</p></div><div><span>Call or text</span><p><a href="tel:+16092977412">(609) 297-7412</a></p></div></div><div className="container footer-bottom"><p>© {new Date().getFullYear()} Orbit PowerWash. All rights reserved.</p><p>Clean surfaces. Clear standards.</p></div></footer>;
+  return <footer><div className="container footer-grid"><Brand footer /><div><span>Serving</span><p>Plainsboro &amp; West Windsor, NJ</p></div><div><span>Call or text</span><p><a href="tel:+16092977412" data-analytics-location="footer">(609) 297-7412</a></p></div></div><div className="container footer-bottom"><p>© {new Date().getFullYear()} Orbit PowerWash. All rights reserved.</p><p>Clean surfaces. Clear standards.</p></div></footer>;
 }
 
 export default function App() {
@@ -259,5 +283,5 @@ export default function App() {
   const estimateTriggerRef = useRef(null);
   const closeEstimate = useCallback(() => setEstimateService(''), []);
   const showEstimate = useCallback((service, trigger) => { estimateTriggerRef.current = trigger; setEstimateService(service); }, []);
-  return <MotionConfig reducedMotion="user"><a className="skip-link" href="#main">Skip to content</a><Header /><main id="main"><Hero /><Services onSelect={setSelectedService} /><Process /><WhyOrbit /><ServiceArea /><FAQ /><Quote selectedService={selectedService} onSelect={setSelectedService} onSuccess={showEstimate} /></main><Footer /><AnimatePresence>{estimateService ? <EstimateModal key="estimate" service={estimateService} onClose={closeEstimate} returnFocusRef={estimateTriggerRef} /> : null}</AnimatePresence><motion.div className="mobile-cta" aria-label="Quick contact options" initial={{ y: 90 }} animate={{ y: 0 }} transition={{ delay: 0.75, duration: 0.55, ease }}><a href="tel:+16092977412"><span>Call or text</span><strong>(609) 297-7412</strong></a><motion.a className="button" href="#quote" whileTap={{ scale: 0.96 }}>Free Quote</motion.a></motion.div></MotionConfig>;
+  return <MotionConfig reducedMotion="user"><AnalyticsTracker /><a className="skip-link" href="#main">Skip to content</a><Header /><main id="main"><Hero /><Services onSelect={setSelectedService} /><Process /><WhyOrbit /><ServiceArea /><FAQ /><Quote selectedService={selectedService} onSelect={setSelectedService} onSuccess={showEstimate} /></main><Footer /><AnimatePresence>{estimateService ? <EstimateModal key="estimate" service={estimateService} onClose={closeEstimate} returnFocusRef={estimateTriggerRef} /> : null}</AnimatePresence><motion.div className="mobile-cta" aria-label="Quick contact options" initial={{ y: 90 }} animate={{ y: 0 }} transition={{ delay: 0.75, duration: 0.55, ease }}><a href="tel:+16092977412" data-analytics-location="mobile_sticky"><span>Call or text</span><strong>(609) 297-7412</strong></a><motion.a className="button" href="#quote" data-analytics-location="mobile_sticky" whileTap={{ scale: 0.96 }}>Free Quote</motion.a></motion.div></MotionConfig>;
 }

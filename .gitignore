@@ -2,5 +2,7 @@ node_modules/
 dist/
 .vite/
 *.log
+.env*
+!.env.example
 .playwright-cli/
 output/
