@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a1a2b">
+<meta name="color-scheme" content="light dark">
+<title>Orbit PowerWash — CRM</title>
+<style>
+/* ---------- Design tokens ---------- */
+:root{
+  --navy:#0a1a2b; --navy-800:#0e2338; --navy-700:#14314b; --navy-900:#06121e;
+  --cyan:#1fc9e2; --cyan-bright:#46d8ee; --cyan-ink:#0a6b79;
+  --accent:var(--cyan); --accent-ink:#063b45;
+  --bg:#f4f6f8; --surface:#ffffff; --surface-2:#eef2f6; --line:#dde4ea;
+  --ink:#0d2033; --ink-2:#4a5a6a; --ink-3:#7c8b99;
+  --good:#1a8f4c; --good-bg:#e5f5eb; --warn:#b4770a; --warn-bg:#fbf0d8;
+  --bad:#c23b2f; --bad-bg:#fbe2df; --info:#0a6b79; --info-bg:#d9f2f6;
+  --gold:#b07d10; --purple:#6b4fbf;
+  --radius:14px; --radius-sm:10px; --shadow:0 1px 3px rgba(10,26,43,.08),0 6px 18px rgba(10,26,43,.06);
+  --tap:44px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#06121e; --surface:#0e2338; --surface-2:#14314b; --line:#1e3a54;
+    --ink:#e7eef5; --ink-2:#a9bccd; --ink-3:#7690a5;
+    --good:#4ecb82; --good-bg:#123425; --warn:#e6b34d; --warn-bg:#3a2f11;
+    --bad:#f08a80; --bad-bg:#3a1a17; --info:#5fd6e8; --info-bg:#0d2f38;
+    --gold:#e6b34d; --purple:#a892ee;
+    --shadow:0 1px 3px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font); background:var(--bg); color:var(--ink);
+  font-size:16px; line-height:1.45; -webkit-text-size-adjust:100%;
+  padding-bottom:calc(66px + env(safe-area-inset-bottom));
+}
+h1,h2,h3,h4{margin:0;font-weight:700;line-height:1.2}
+a{color:var(--accent);text-decoration:none}
+button{font-family:inherit;font-size:16px;cursor:pointer;border:0;background:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:16px;color:var(--ink)}
+::placeholder{color:var(--ink-3)}
+
+/* ---------- Header ---------- */
+header#top{
+  position:sticky;top:0;z-index:40;
+  background:linear-gradient(180deg,var(--navy) 0%,var(--navy-800) 100%);
+  color:#eaf3f7; padding:calc(10px + env(safe-area-inset-top)) 14px 10px;
+  box-shadow:0 2px 10px rgba(0,0,0,.25);
+}
+.brandrow{display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:34px;flex:0 0 auto;border-radius:9px;
+  background:radial-gradient(circle at 30% 30%,var(--cyan-bright),var(--cyan) 55%,var(--cyan-ink));
+  display:grid;place-items:center;box-shadow:0 0 0 2px rgba(31,201,226,.25),inset 0 0 6px rgba(0,0,0,.25)}
+.logo svg{width:22px;height:22px}
+.brandtext{flex:1;min-width:0}
+.brandtext .name{font-size:17px;font-weight:800;letter-spacing:.2px;color:#fff}
+.brandtext .contact{font-size:11.5px;color:var(--cyan-bright);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbtn{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.08);color:#dff3f8}
+.hbtn:active{background:rgba(255,255,255,.18)}
+.hbtn svg{width:20px;height:20px}
+
+/* ---------- Layout ---------- */
+main#view{padding:14px 12px 20px;max-width:720px;margin:0 auto}
+.tabtitle{font-size:13px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-3);font-weight:700;margin:4px 2px 12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin-bottom:12px}
+.card h3{font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.muted{color:var(--ink-2)}
+.tiny{font-size:12px}
+.row{display:flex;gap:8px;align-items:center}
+.spread{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.wrap{flex-wrap:wrap}
+.grow{flex:1;min-width:0}
+.stack>*+*{margin-top:10px}
+.empty{text-align:center;color:var(--ink-3);padding:26px 14px}
+.empty .big{font-size:30px;margin-bottom:6px}
+.divider{height:1px;background:var(--line);margin:10px 0}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:var(--tap);
+  padding:0 16px;border-radius:11px;font-weight:700;font-size:15px;transition:filter .12s,transform .05s}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:active{filter:brightness(.94)}
+.btn-navy{background:var(--navy-700);color:#eaf3f7}
+.btn-ghost{background:var(--surface-2);color:var(--ink)}
+.btn-outline{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn-danger{background:var(--bad-bg);color:var(--bad)}
+.btn-sm{min-height:38px;padding:0 12px;font-size:14px;border-radius:9px}
+.btn-block{display:flex;width:100%}
+.btn-icon{width:44px;flex:0 0 auto;padding:0}
+.btnwrap{display:flex;gap:8px;flex-wrap:wrap}
+.btnwrap .btn{flex:1}
+
+/* ---------- Forms ---------- */
+label.field{display:block;margin-bottom:12px}
+label.field>span{display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:5px}
+input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;
+  background:var(--surface);color:var(--ink);min-height:var(--tap)}
+textarea{min-height:96px;resize:vertical;line-height:1.4}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(31,201,226,.18)}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237c8b99' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.form-2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.checkrow{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:8px;background:var(--surface)}
+.checkrow input{width:22px;height:22px;min-height:0;flex:0 0 auto;accent-color:var(--accent)}
+.checkrow.on{border-color:var(--accent);background:var(--info-bg)}
+.checkrow label{flex:1;font-weight:600;margin:0}
+
+/* ---------- Chips / badges ---------- */
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.chip{padding:7px 12px;border-radius:999px;font-size:13px;font-weight:600;background:var(--surface-2);color:var(--ink-2);border:1.5px solid transparent;min-height:36px;display:inline-flex;align-items:center}
+.chip.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:6px;font-size:11.5px;font-weight:700;background:var(--surface-2);color:var(--ink-2)}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:700;text-transform:capitalize}
+.st-new{background:var(--surface-2);color:var(--ink-2)}
+.st-quoted{background:var(--info-bg);color:var(--info)}
+.st-booked{background:var(--warn-bg);color:var(--warn)}
+.st-done{background:var(--good-bg);color:var(--good)}
+.st-reviewed{background:rgba(107,79,191,.14);color:var(--purple)}
+.st-lost{background:var(--bad-bg);color:var(--bad)}
+.st-no{background:var(--surface-2);color:var(--ink-3)}
+.due{color:var(--warn);font-weight:700}
+.overdue{color:var(--bad);font-weight:700}
+
+/* ---------- Lead / job list ---------- */
+.item{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px;margin-bottom:10px}
+.item .top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.item .nm{font-weight:700;font-size:16px}
+.item .meta{font-size:13px;color:var(--ink-2);margin-top:3px}
+.item .tags{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.item .acts{margin-top:10px;display:flex;gap:7px;flex-wrap:wrap}
+.linklike{color:var(--accent);font-weight:600}
+
+/* ---------- Dashboard ---------- */
+.goal .bar{height:12px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin-top:8px}
+.goal .fill{height:100%;background:linear-gradient(90deg,var(--cyan-ink),var(--cyan));border-radius:999px;transition:width .4s}
+.bignum{font-size:34px;font-weight:800;line-height:1}
+.score{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.score .cell{background:var(--surface-2);border-radius:10px;padding:10px 11px}
+.score .cell .k{font-size:11.5px;color:var(--ink-2);font-weight:600}
+.score .cell .v{font-size:22px;font-weight:800;margin-top:2px}
+.score .cell.full{grid-column:1/-1}
+.doorinp{width:84px;text-align:center;font-weight:800;font-size:20px;padding:6px}
+
+/* ---------- Quote math ---------- */
+.mathline{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:14px;border-bottom:1px dashed var(--line)}
+.mathline.total{border-bottom:0;border-top:2px solid var(--ink);margin-top:4px;padding-top:9px;font-size:18px;font-weight:800}
+.mathline .amt{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.mathline.sub{color:var(--ink-2);font-size:12.5px;border-bottom:0;padding:2px 0}
+.mathline .strike{text-decoration:line-through;color:var(--ink-3);font-weight:600}
+.note-warn{background:var(--warn-bg);color:var(--warn);border-radius:9px;padding:8px 10px;font-size:12.5px;font-weight:600;margin-top:8px}
+.note-info{background:var(--info-bg);color:var(--info);border-radius:9px;padding:8px 10px;font-size:12.5px;margin-top:8px}
+
+/* ---------- Monospace preview ---------- */
+pre.doc{font-family:var(--mono);font-size:12px;line-height:1.5;white-space:pre;overflow-x:auto;
+  background:var(--navy-900);color:#dbe9f0;border-radius:10px;padding:12px;margin:0;-webkit-overflow-scrolling:touch}
+@media (prefers-color-scheme: light){pre.doc{background:#0e2338;color:#e6f0f5}}
+textarea.msg{font-size:14px;background:var(--surface-2);min-height:150px}
+
+/* ---------- Money table ---------- */
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:10px}
+table.ledger{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+table.ledger th,table.ledger td{padding:8px 9px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+table.ledger th{background:var(--surface-2);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);position:sticky;top:0}
+table.ledger td.num{text-align:right;font-variant-numeric:tabular-nums}
+.io-in{color:var(--good);font-weight:700}
+.io-out{color:var(--bad);font-weight:700}
+.weeksum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.weeksum .box{flex:1;min-width:90px;background:var(--surface-2);border-radius:10px;padding:9px 11px}
+.weeksum .box .k{font-size:11px;color:var(--ink-2);font-weight:600}
+.weeksum .box .v{font-size:19px;font-weight:800;font-variant-numeric:tabular-nums}
+
+/* ---------- Tab bar ---------- */
+nav#tabbar{position:fixed;left:0;right:0;bottom:0;z-index:40;
+  display:flex;background:var(--surface);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 12px rgba(10,26,43,.08)}
+nav#tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:7px 2px 6px;color:var(--ink-3);font-size:10.5px;font-weight:600;min-height:58px;justify-content:center}
+nav#tabbar button svg{width:22px;height:22px}
+nav#tabbar button.on{color:var(--accent)}
+nav#tabbar button.on svg{filter:drop-shadow(0 0 6px rgba(31,201,226,.4))}
+
+/* ---------- Modal ---------- */
+.overlay{position:fixed;inset:0;z-index:60;background:rgba(6,18,30,.55);display:flex;align-items:flex-end;justify-content:center;
+  padding:0;animation:fade .15s ease}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media(min-width:560px){.overlay{align-items:center;padding:20px}}
+.modal{background:var(--surface);width:100%;max-width:520px;max-height:92vh;overflow-y:auto;
+  border-radius:18px 18px 0 0;box-shadow:0 -6px 30px rgba(0,0,0,.3);animation:slideup .2s ease}
+@media(min-width:560px){.modal{border-radius:18px}}
+@keyframes slideup{from{transform:translateY(24px);opacity:.6}to{transform:translateY(0);opacity:1}}
+.modal .mhead{position:sticky;top:0;background:var(--surface);display:flex;justify-content:space-between;align-items:center;
+  padding:15px 16px;border-bottom:1px solid var(--line);z-index:1}
+.modal .mhead h3{font-size:16px}
+.modal .mbody{padding:16px}
+.modal-actions{display:flex;gap:10px;margin-top:14px}
+.modal-actions .btn{flex:1}
+.xbtn{width:34px;height:34px;border-radius:9px;background:var(--surface-2);display:grid;place-items:center;font-size:20px;color:var(--ink-2)}
+
+/* ---------- Toast ---------- */
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(78px + env(safe-area-inset-bottom));z-index:80;
+  background:var(--navy);color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;font-weight:600;
+  box-shadow:0 6px 20px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+/* ---------- Print ---------- */
+#printArea{display:none}
+@media print{
+  header#top,nav#tabbar,#toast,.overlay,main#view{display:none !important}
+  body{padding:0;background:#fff;color:#000}
+  #printArea{display:block;font-family:var(--mono);font-size:12px;white-space:pre;padding:16px;color:#000}
+}
+</style>
+</head>
+<body>
+<header id="top">
+  <div class="brandrow">
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="12" rx="10" ry="4.4" transform="rotate(-24 12 12)" stroke="#063b45" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" fill="#063b45"/></svg>
+    </div>
+    <div class="brandtext">
+      <div class="name">Orbit PowerWash</div>
+      <div class="contact">(609) 297-7412 · quote@orbitpowerwash.com</div>
+    </div>
+    <button class="hbtn" id="settingsBtn" title="Settings &amp; backup" aria-label="Settings and backup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="view"></main>
+
+<nav id="tabbar"></nav>
+
+<pre id="printArea"></pre>
+<div id="toast"></div>
+<div id="modalRoot"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   Orbit PowerWash — back-office CRM
+   Single-file, offline, localStorage. No external requests.
+   ============================================================ */
+
+/* ---------- Canonical business facts ---------- */
+var BIZ = {
+  name:"Orbit PowerWash",
+  phone:"(609) 297-7412",
+  phoneDigits:"6092977412",
+  email:"quote@orbitpowerwash.com",
+  web:"orbitpowerwash.com",
+  area:"Plainsboro, West Windsor & Ewing, NJ",
+  areaInvoice:"Plainsboro & West Windsor, NJ"
+};
+
+/* ---------- Reference data (from the docs) ---------- */
+var SOURCES = [
+  ["door","Door knock"],["network","Personal network"],["nextdoor","Nextdoor"],
+  ["facebook","Facebook"],["marketplace","Marketplace"],["craigslist","Craigslist"],
+  ["whatsapp","WhatsApp"],["referral","Referral"],["gbp","Google (GBP)"]
+];
+var STATUSES = ["new","quoted","booked","done","reviewed","lost","no"];
+var STATUS_LABEL = {new:"new",quoted:"quoted",booked:"booked",done:"done",reviewed:"reviewed",lost:"lost",no:"no"};
+
+// service keys, order matters for display
+var SERVICE_KEYS = ["driveway","house","patio-deck","fence","bins"];
+var SERVICES = {
+  driveway:{ key:"driveway", label:"Driveway Washing", short:"Driveway", bundle:true,
+    tiers:[ {v:150,t:"2-car (~600 sq ft) — $150"},{v:220,t:"3-car (~900–1,000 sq ft) — $220"},{v:325,t:"Long / extended (1,200+ sq ft) — $325"} ] },
+  house:{ key:"house", label:"House Washing (soft wash)", short:"House", bundle:true,
+    tiers:[ {v:300,t:"Ranch / 1-story (~1,200–1,600) — $300"},{v:450,t:"2-story colonial (~2,000–2,800) — $450"},{v:625,t:"Larger 2-story (3,000+) — $625"} ] },
+  "patio-deck":{ key:"patio-deck", label:"Patio & Deck Washing", short:"Patio/Deck", bundle:true,
+    tiers:[ {v:135,t:"Small (up to ~200 sq ft) — $135"},{v:210,t:"Medium (~200–400 sq ft) — $210"},{v:340,t:"Large (~400–700 sq ft) — $340"} ] },
+  fence:{ key:"fence", label:"Fence Washing", short:"Fence", bundle:true, perFoot:true, rate:2.00 },
+  bins:{ key:"bins", label:"Trash Bin Cleaning", short:"Bins", bundle:false, addon:true,
+    tiers:[ {v:25,t:"1 bin — $25"},{v:40,t:"2 bins — $40"} ] }
+};
+var MIN_JOB = 150;
+
+/* ---------- State ---------- */
+var KEY = "orbitpw.crm.v1";
+function defaultState(){
+  return { version:1, leads:[], money:[], invoiceSeq:0, doors:{},
+           settings:{ owner:"", reviewLink:"" } };
+}
+var S = loadState();
+function loadState(){
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(raw){
+      var p = JSON.parse(raw);
+      var base = defaultState();
+      for(var k in p){ if(Object.prototype.hasOwnProperty.call(p,k)) base[k]=p[k]; }
+      if(!base.settings) base.settings = {owner:"",reviewLink:""};
+      if(!base.doors) base.doors = {};
+      return base;
+    }
+  }catch(e){ console.warn("load failed",e); }
+  return defaultState();
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast("Storage full — export a backup"); } }
+
+/* ---------- Tiny helpers ---------- */
+function $(sel,root){ return (root||document).querySelector(sel); }
+function $all(sel,root){ return Array.prototype.slice.call((root||document).querySelectorAll(sel)); }
+function el(id){ return document.getElementById(id); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+function attr(s){ return String(s==null?"":s).replace(/"/g,"&quot;"); }
+function money(n,cents){ n = Number(n)||0; if(cents){ return "$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); } return "$"+Math.round(n).toLocaleString("en-US"); }
+function isoOf(d){ var y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,"0"), day=String(d.getDate()).padStart(2,"0"); return y+"-"+m+"-"+day; }
+function todayISO(){ return isoOf(new Date()); }
+function parseISO(iso){ return new Date(iso+"T00:00:00"); }
+function addDaysISO(iso,n){ var d=parseISO(iso); d.setDate(d.getDate()+n); return isoOf(d); }
+function fmtDate(iso){ if(!iso) return "—"; var d=parseISO(iso); var days=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]; return days[d.getDay()]+" "+(d.getMonth()+1)+"/"+d.getDate(); }
+function daysBetween(a,b){ return Math.round((parseISO(b)-parseISO(a))/86400000); }
+
+/* ---------- Toast ---------- */
+var toastT;
+function toast(msg){ var t=el("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){ t.classList.remove("show"); },1900); }
+
+/* ---------- Clipboard ---------- */
+function copyText(text){
+  function ok(){ toast("Copied to clipboard"); }
+  function fallback(){
+    var ta=document.createElement("textarea"); ta.value=text;
+    ta.style.position="fixed"; ta.style.top="-9999px"; ta.style.opacity="0";
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand("copy"); ok(); }catch(e){ toast("Press and hold to copy"); }
+    document.body.removeChild(ta);
+  }
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(ok, fallback);
+    } else { fallback(); }
+  }catch(e){ fallback(); }
+}
+
+/* ---------- Download ---------- */
+function download(filename, text, mime){
+  var blob=new Blob([text],{type:mime||"text/plain;charset=utf-8"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a"); a.href=url; a.download=filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); },120);
+}
+
+/* ---------- Modals ---------- */
+function openModal(title, bodyHTML, onMount){
+  var root=el("modalRoot");
+  var wrap=document.createElement("div"); wrap.className="overlay";
+  wrap.innerHTML='<div class="modal"><div class="mhead"><h3>'+title+'</h3><button class="xbtn" data-close aria-label="Close">&times;</button></div><div class="mbody">'+bodyHTML+'</div></div>';
+  root.appendChild(wrap);
+  function close(){ wrap.remove(); }
+  wrap.addEventListener("click",function(e){
+    if(e.target===wrap) close();
+    if(e.target.closest("[data-close]")) close();
+  });
+  if(onMount) onMount(wrap, close);
+  return { wrap:wrap, close:close };
+}
+function confirmDialog(msg, onYes, yesLabel, danger){
+  openModal("Confirm",
+    '<p style="margin:0 0 4px">'+esc(msg)+'</p>'+
+    '<div class="modal-actions"><button class="btn btn-ghost" data-close>Cancel</button>'+
+    '<button class="btn '+(danger?"btn-danger":"btn-primary")+'" id="cfYes">'+esc(yesLabel||"Yes")+'</button></div>',
+    function(wrap,close){ $("#cfYes",wrap).onclick=function(){ close(); if(onYes) onYes(); }; });
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+var TABS = [
+  {id:"today", label:"Today", icon:'<path d="M3 13h4l2 5 4-12 2 7h6"/>'},
+  {id:"leads", label:"Leads", icon:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c0-3.3 2.5-5.2 5.5-5.2s5.5 1.9 5.5 5.2"/><path d="M17 9l2 2 3-3.2"/>'},
+  {id:"quote", label:"Quote", icon:'<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M9 7h6M9 11h1M13 11h2M9 15h1M13 15h2M9 18h6"/>'},
+  {id:"jobs", label:"Jobs", icon:'<path d="M9 4h6a1 1 0 0 1 1 1v1h1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1V5a1 1 0 0 1 1-1z"/><path d="M9 13l2 2 4-4"/>'},
+  {id:"invoice", label:"Invoice", icon:'<path d="M8 2h6l5 5v14a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z"/><path d="M14 2v5h5M10 13h6M10 17h4"/>'},
+  {id:"money", label:"Money", icon:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M14.8 9.3c0-1.3-1.3-2.1-2.8-2.1s-2.8.9-2.8 2.1 1.3 2 2.8 2.3 2.8 1 2.8 2.3-1.3 2.1-2.8 2.1-2.8-.9-2.8-2.1"/>'}
+];
+var tab = "today";
+function renderTabbar(){
+  var nav=el("tabbar");
+  nav.innerHTML = TABS.map(function(t){
+    return '<button data-tab="'+t.id+'" class="'+(tab===t.id?"on":"")+'">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+t.icon+'</svg>'+
+      '<span>'+t.label+'</span></button>';
+  }).join("");
+  $all("button",nav).forEach(function(b){ b.onclick=function(){ go(b.getAttribute("data-tab")); }; });
+}
+function go(id){ tab=id; renderTabbar(); route(); window.scrollTo(0,0); }
+function route(){
+  var v=el("view");
+  if(tab==="today") renderToday(v);
+  else if(tab==="leads") renderLeads(v);
+  else if(tab==="quote") renderQuote(v);
+  else if(tab==="jobs") renderJobs(v);
+  else if(tab==="invoice") renderInvoice(v);
+  else if(tab==="money") renderMoney(v);
+}
+function rerender(){ route(); }
+
+/* ============================================================
+   SHARED lead helpers
+   ============================================================ */
+function serviceLabel(keys){
+  if(!keys||!keys.length) return "—";
+  return keys.map(function(k){ return SERVICES[k]?SERVICES[k].short:k; }).join(" + ");
+}
+function serviceKeyLabel(keys){ // for CSV / tracker column: driveway+patio-deck
+  if(!keys||!keys.length) return "";
+  return keys.join("+");
+}
+function statusBadge(st){ return '<span class="badge st-'+st+'">'+esc(STATUS_LABEL[st]||st)+'</span>'; }
+function bookingCount(){ return S.leads.filter(function(l){ return l.status==="booked"||l.status==="done"||l.status==="reviewed"; }).length; }
+
+function setStatus(lead, status){
+  var t=todayISO();
+  lead.status=status;
+  if(status==="quoted"){ if(!lead.quotedDate) lead.quotedDate=t; lead.followUpDate=addDaysISO(t,1); }
+  else if(status==="booked"){ if(!lead.bookedDate) lead.bookedDate=t; lead.followUpDate=""; }
+  else if(status==="done"){ if(!lead.doneDate) lead.doneDate=t; lead.followUpDate=""; }
+  else if(status==="reviewed"){ if(!lead.reviewedDate) lead.reviewedDate=t; if(!lead.reviewAskDate) lead.reviewAskDate=t; lead.followUpDate=""; }
+  else if(status==="lost"||status==="no"){ lead.followUpDate=""; }
+  lead.updatedAt=t;
+  save();
+}
+function logFollowUp(lead, note){
+  if(!lead.followUps) lead.followUps=[];
+  lead.followUps.push({date:todayISO(), note:note||""});
+  lead.followUpDate = addDaysISO(todayISO(),3);
+  lead.updatedAt = todayISO();
+  save();
+}
+function nextStatus(st){
+  var order=["new","quoted","booked","done","reviewed"];
+  var i=order.indexOf(st);
+  if(i>=0 && i<order.length-1) return order[i+1];
+  return null;
+}
+function advanceLead(lead){
+  var nx=nextStatus(lead.status);
+  if(!nx){ return; }
+  if(nx==="booked"){ openBookModal(lead, function(){ toast("Booked ✓"); rerender(); }); return; }
+  if(nx==="done"){ openPayModal(lead); return; }
+  setStatus(lead, nx);
+  toast("Moved to "+nx);
+  rerender();
+}
+function markLost(lead){
+  var n = (lead.followUps||[]).length;
+  if(n<2){
+    confirmDialog("Only "+n+" follow-up"+(n===1?"":"s")+" logged. The rule: no lead is marked LOST before 2 touches (24h + 72h). Most “no’s” are “not yet.” Mark lost anyway?",
+      function(){ setStatus(lead,"lost"); toast("Marked lost"); rerender(); }, "Mark lost anyway", true);
+  } else { setStatus(lead,"lost"); toast("Marked lost"); rerender(); }
+}
+
+/* ---------- Book modal ---------- */
+function openBookModal(lead, done){
+  openModal("Book job — "+esc(lead.name||"lead"),
+    '<label class="field"><span>Job date</span><input type="date" id="bkDate" value="'+attr(lead.jobDate||todayISO())+'"></label>'+
+    '<label class="field"><span>Arrival window</span><input id="bkWin" placeholder="e.g. 9–11am" value="'+attr(lead.jobWindow||"")+'"></label>'+
+    '<div class="modal-actions"><button class="btn btn-ghost" data-close>Cancel</button><button class="btn btn-primary" id="bkSave">Book it</button></div>',
+    function(wrap,close){
+      $("#bkSave",wrap).onclick=function(){
+        lead.jobDate=$("#bkDate",wrap).value||todayISO();
+        lead.jobWindow=($("#bkWin",wrap).value||"").trim();
+        setStatus(lead,"booked"); close(); if(done) done();
+      };
+    });
+}
+
+/* ---------- Payment capture modal ---------- */
+function openPayModal(lead){
+  openModal("Payment — "+esc(lead.name||"lead"),
+    '<p class="tiny muted" style="margin-top:0">Due on completion. Preferred: Zelle → Cash → Venmo → Card (last resort).</p>'+
+    '<label class="field"><span>Method</span><select id="pMethod"><option>Zelle</option><option>Cash</option><option>Venmo</option><option>Card</option></select></label>'+
+    '<label class="field"><span>Amount collected</span><input id="pAmt" type="number" inputmode="decimal" step="0.01" value="'+attr(lead.quote!=null?lead.quote:"")+'"></label>'+
+    '<div class="modal-actions"><button class="btn btn-ghost" data-close>Cancel</button><button class="btn btn-primary" id="pSave">Save &amp; mark done</button></div>',
+    function(wrap,close){
+      $("#pSave",wrap).onclick=function(){
+        var amt=parseFloat($("#pAmt",wrap).value)||0;
+        var method=$("#pMethod",wrap).value;
+        setStatus(lead,"done");
+        var m={ id:uid(), date:todayISO(), inOut:"In", party:lead.name||"", description:serviceLabel(lead.services), amount:amt, method:method, invoiceNo:"", receiptSaved:"N", leadId:lead.id };
+        S.money.push(m); save();
+        close();
+        confirmDialog("Job done ✓ and a money row was added. Create the invoice / receipt now?",
+          function(){ startInvoiceFromLead(lead, m); },
+          "Make invoice");
+        rerender();
+      };
+    });
+}
+
+/* ============================================================
+   LEAD EDITOR
+   ============================================================ */
+function blankLead(){
+  return { id:uid(), date:todayISO(), name:"", phone:"", address:"", source:"door",
+    services:[], status:"new", quote:null, followUpDate:"", notes:"",
+    followUps:[], jobDate:"", jobWindow:"",
+    quotedDate:"", bookedDate:"", doneDate:"", reviewedDate:"", reviewAskDate:"",
+    createdAt:todayISO(), updatedAt:todayISO() };
+}
+function openLeadEditor(lead, isNew){
+  var l = lead;
+  var srcOpts = SOURCES.map(function(s){ return '<option value="'+s[0]+'"'+(l.source===s[0]?" selected":"")+'>'+esc(s[1])+'</option>'; }).join("");
+  var stOpts = STATUSES.map(function(s){ return '<option value="'+s+'"'+(l.status===s?" selected":"")+'>'+esc(s)+'</option>'; }).join("");
+  var svcChecks = SERVICE_KEYS.map(function(k){
+    var on = l.services && l.services.indexOf(k)>=0;
+    return '<div class="checkrow'+(on?" on":"")+'"><input type="checkbox" id="svc_'+k+'" '+(on?"checked":"")+'><label for="svc_'+k+'">'+esc(SERVICES[k].label)+'</label></div>';
+  }).join("");
+  var body =
+    '<label class="field"><span>Name</span><input id="ldName" value="'+attr(l.name)+'" placeholder="First name is fine"></label>'+
+    '<div class="form-2">'+
+      '<label class="field"><span>Phone</span><input id="ldPhone" type="tel" inputmode="tel" value="'+attr(l.phone)+'" placeholder="(609) ..."></label>'+
+      '<label class="field"><span>Date in</span><input id="ldDate" type="date" value="'+attr(l.date||todayISO())+'"></label>'+
+    '</div>'+
+    '<label class="field"><span>Address / Street</span><input id="ldAddr" value="'+attr(l.address)+'" placeholder="14 Maple Ct, Plainsboro"></label>'+
+    '<div class="form-2">'+
+      '<label class="field"><span>Source</span><select id="ldSource">'+srcOpts+'</select></label>'+
+      '<label class="field"><span>Status</span><select id="ldStatus">'+stOpts+'</select></label>'+
+    '</div>'+
+    '<div class="field"><span style="display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:5px">Service(s)</span>'+svcChecks+'</div>'+
+    '<div class="form-2">'+
+      '<label class="field"><span>Quote $</span><input id="ldQuote" type="number" inputmode="decimal" value="'+attr(l.quote==null?"":l.quote)+'" placeholder="from Quote tab"></label>'+
+      '<label class="field"><span>Follow-up date</span><input id="ldFollow" type="date" value="'+attr(l.followUpDate)+'"></label>'+
+    '</div>'+
+    '<label class="field"><span>Notes</span><textarea id="ldNotes" placeholder="not home re-knock Sat / cash / dog in yard / wants patio too">'+esc(l.notes)+'</textarea></label>'+
+    (l.followUps&&l.followUps.length ? '<div class="note-info">Follow-ups logged: '+l.followUps.length+' — last '+fmtDate(l.followUps[l.followUps.length-1].date)+'</div>' : '')+
+    '<div class="modal-actions">'+
+      (isNew?'':'<button class="btn btn-danger btn-sm" id="ldDelete" style="flex:0 0 auto">Delete</button>')+
+      '<button class="btn btn-ghost" data-close>Cancel</button>'+
+      '<button class="btn btn-primary" id="ldSave">Save</button>'+
+    '</div>';
+  openModal(isNew?"New lead":"Edit lead", body, function(wrap,close){
+    // live check highlight
+    SERVICE_KEYS.forEach(function(k){
+      var cb=$("#svc_"+k,wrap);
+      cb.onchange=function(){ cb.closest(".checkrow").classList.toggle("on",cb.checked); };
+    });
+    $("#ldSave",wrap).onclick=function(){
+      l.name=$("#ldName",wrap).value.trim();
+      l.phone=$("#ldPhone",wrap).value.trim();
+      l.date=$("#ldDate",wrap).value||todayISO();
+      l.address=$("#ldAddr",wrap).value.trim();
+      l.source=$("#ldSource",wrap).value;
+      l.services=SERVICE_KEYS.filter(function(k){ return $("#svc_"+k,wrap).checked; });
+      var q=$("#ldQuote",wrap).value; l.quote = q===""?null:(parseFloat(q)||0);
+      l.followUpDate=$("#ldFollow",wrap).value;
+      l.notes=$("#ldNotes",wrap).value.trim();
+      var newStatus=$("#ldStatus",wrap).value;
+      if(newStatus!==l.status){ setStatus(l,newStatus); } else { l.updatedAt=todayISO(); }
+      if(isNew){ S.leads.push(l); }
+      save(); close(); toast(isNew?"Lead added":"Saved"); rerender();
+    };
+    if(!isNew){
+      $("#ldDelete",wrap).onclick=function(){
+        close();
+        confirmDialog("Delete this lead permanently?", function(){
+          S.leads=S.leads.filter(function(x){ return x.id!==l.id; }); save(); toast("Deleted"); rerender();
+        }, "Delete", true);
+      };
+    }
+  });
+}
+
+/* ============================================================
+   TAB: TODAY (dashboard)
+   ============================================================ */
+function renderToday(v){
+  var t=todayISO();
+  var count=bookingCount();
+  var pct=Math.min(100, Math.round(count/10*100));
+  // follow-ups
+  var fups=S.leads.filter(function(l){ return l.followUpDate && (l.status==="new"||l.status==="quoted") ; })
+    .map(function(l){ return {l:l, d:l.followUpDate, over:daysBetween(l.followUpDate,t)}; })
+    .filter(function(x){ return x.d<=t; })
+    .sort(function(a,b){ return a.d<b.d?-1:1; });
+  // today's jobs
+  var jobs=S.leads.filter(function(l){ return l.status==="booked" && l.jobDate===t; })
+    .sort(function(a,b){ return (a.jobWindow||"")<(b.jobWindow||"")?-1:1; });
+  // scorecard computed
+  var quotesToday=S.leads.filter(function(l){ return l.quotedDate===t; }).length;
+  var bookingsToday=S.leads.filter(function(l){ return l.bookedDate===t; }).length;
+  var jobsToday=S.leads.filter(function(l){ return l.doneDate===t; }).length;
+  var reviewsToday=S.leads.filter(function(l){ return l.reviewAskDate===t; }).length;
+  var collectedToday=S.money.filter(function(m){ return m.inOut==="In" && m.date===t; }).reduce(function(a,m){ return a+(Number(m.amount)||0); },0);
+  var doors=S.doors[t]!=null?S.doors[t]:"";
+
+  var html="";
+  html+='<div class="tabtitle">Today · '+fmtDate(t)+'</div>';
+
+  // goal
+  html+='<div class="card goal"><div class="spread"><h3 style="margin:0">Bookings toward 10</h3><div class="bignum" style="color:var(--accent)">'+count+'<span style="font-size:16px;color:var(--ink-3)"> / 10</span></div></div>'+
+    '<div class="bar"><div class="fill" style="width:'+pct+'%"></div></div>'+
+    '<div class="tiny muted" style="margin-top:6px">Counts leads at <b>booked + done + reviewed</b>. '+(count>=10?'Goal hit 🎉':(10-count)+' to go this week.')+'</div></div>';
+
+  // follow-ups
+  html+='<div class="card"><h3>Follow-ups due</h3>';
+  if(!fups.length){ html+='<div class="empty tiny">No follow-ups due. Nice — inbox zero on the pipeline.</div>'; }
+  else{
+    html+='<div class="stack">'+fups.map(function(x){
+      var over=x.d<t; var lbl=over?('<span class="overdue">Overdue '+fmtDate(x.d)+'</span>'):'<span class="due">Due today</span>';
+      return '<div class="row spread" data-openlead="'+x.l.id+'" style="cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:9px 11px">'+
+        '<div class="grow"><b>'+esc(x.l.name||"(no name)")+'</b> '+statusBadge(x.l.status)+'<div class="tiny muted">'+serviceLabel(x.l.services)+(x.l.quote!=null?' · '+money(x.l.quote):'')+'</div></div>'+
+        '<div class="tiny" style="text-align:right">'+lbl+'</div></div>';
+    }).join("")+'</div>';
+  }
+  html+='</div>';
+
+  // today's jobs
+  html+='<div class="card"><h3>Today’s booked jobs</h3>';
+  if(!jobs.length){ html+='<div class="empty tiny">No jobs booked for today.</div>'; }
+  else{
+    html+='<div class="stack">'+jobs.map(function(l){
+      return '<div class="row spread" style="border:1px solid var(--line);border-radius:10px;padding:9px 11px">'+
+        '<div class="grow"><b>'+esc(l.name)+'</b> <span class="tiny muted">'+esc(l.jobWindow||"")+'</span><div class="tiny muted">'+serviceLabel(l.services)+(l.address?' · '+esc(l.address):'')+'</div></div>'+
+        '<button class="btn btn-ghost btn-sm" data-openlead="'+l.id+'">Open</button></div>';
+    }).join("")+'</div><div class="tiny muted" style="margin-top:8px">Full job tools are on the <b>Jobs</b> tab.</div>';
+  }
+  html+='</div>';
+
+  // scorecard
+  html+='<div class="card"><div class="spread"><h3 style="margin:0">End-of-day scorecard</h3><button class="btn btn-ghost btn-sm" id="copyScore">Copy</button></div>'+
+    '<div class="score" style="margin-top:10px">'+
+      '<div class="cell full row spread"><div><div class="k">Doors knocked today</div><div class="tiny muted">manual entry</div></div><input class="doorinp" id="doorInp" type="number" inputmode="numeric" min="0" value="'+attr(doors)+'" placeholder="0"></div>'+
+      cell("Quotes given", quotesToday)+
+      cell("Bookings", bookingsToday)+
+      cell("Jobs completed", jobsToday)+
+      cell("$ collected", money(collectedToday))+
+      cell("Reviews asked", reviewsToday)+
+      cell("Running total", count+" / 10")+
+    '</div></div>';
+
+  v.innerHTML=html;
+
+  $all("[data-openlead]",v).forEach(function(n){ n.onclick=function(e){
+    if(e.target.tagName==="BUTTON" && e.target.getAttribute("data-openlead")===null) return;
+    var id=n.getAttribute("data-openlead"); var l=S.leads.filter(function(x){return x.id===id;})[0]; if(l) openLeadEditor(l,false);
+  };});
+  var di=$("#doorInp",v);
+  di.oninput=function(){ var val=di.value; if(val===""){ delete S.doors[t]; } else { S.doors[t]=parseInt(val,10)||0; } save(); };
+  $("#copyScore",v).onclick=function(){ copyText(scorecardText()); };
+}
+function cell(k,val){ return '<div class="cell"><div class="k">'+esc(k)+'</div><div class="v">'+esc(String(val))+'</div></div>'; }
+function scorecardText(){
+  var t=todayISO();
+  var quotesToday=S.leads.filter(function(l){ return l.quotedDate===t; }).length;
+  var bookingsToday=S.leads.filter(function(l){ return l.bookedDate===t; }).length;
+  var jobsToday=S.leads.filter(function(l){ return l.doneDate===t; }).length;
+  var reviewsToday=S.leads.filter(function(l){ return l.reviewAskDate===t; }).length;
+  var collectedToday=S.money.filter(function(m){ return m.inOut==="In" && m.date===t; }).reduce(function(a,m){ return a+(Number(m.amount)||0); },0);
+  var openFollow=S.leads.filter(function(l){ return l.followUpDate && (l.status==="new"||l.status==="quoted"); }).length;
+  var newToday=S.leads.filter(function(l){ return l.date===t; }).length;
+  var doors=S.doors[t]!=null?S.doors[t]:"____";
+  return "DATE: "+t+"\n\n"+
+    "Doors knocked today:        "+doors+"\n"+
+    "Quotes given today:         "+quotesToday+"\n"+
+    "Bookings today:             "+bookingsToday+"\n"+
+    "Jobs completed today:       "+jobsToday+"\n"+
+    "$ collected today:          "+money(collectedToday)+"\n"+
+    "Reviews requested today:    "+reviewsToday+"\n\n"+
+    "Open quotes needing follow-up: "+openFollow+"\n"+
+    "New leads logged today:     "+newToday+"\n\n"+
+    "RUNNING BOOKINGS TOTAL:     "+bookingCount()+" / 10";
+}
+
+/* ============================================================
+   TAB: LEADS
+   ============================================================ */
+var leadFilter="all";
+var leadSearch="";
+function renderLeads(v){
+  var chips = ['all'].concat(STATUSES).map(function(s){
+    var n = s==="all"? S.leads.length : S.leads.filter(function(l){return l.status===s;}).length;
+    return '<button class="chip'+(leadFilter===s?" on":"")+'" data-filter="'+s+'">'+esc(s)+' '+n+'</button>';
+  }).join("");
+  v.innerHTML=
+    '<div class="tabtitle">Pipeline · '+S.leads.length+' lead'+(S.leads.length===1?"":"s")+'</div>'+
+    '<div class="card" style="padding:12px">'+
+      '<input id="leadSearch" placeholder="Search name, address, phone, notes" value="'+attr(leadSearch)+'" style="margin-bottom:10px">'+
+      '<div class="chips" id="leadChips">'+chips+'</div>'+
+    '</div>'+
+    '<button class="btn btn-primary btn-block" id="addLead" style="margin-bottom:12px">+ Add lead</button>'+
+    '<div id="leadList"></div>';
+  $("#addLead",v).onclick=function(){ openLeadEditor(blankLead(), true); };
+  $all("[data-filter]",v).forEach(function(b){ b.onclick=function(){ leadFilter=b.getAttribute("data-filter"); renderLeads(v); }; });
+  var sb=$("#leadSearch",v);
+  sb.oninput=function(){ leadSearch=sb.value; renderLeadList(); };
+  renderLeadList();
+}
+function renderLeadList(){
+  var host=el("leadList"); if(!host) return;
+  var t=todayISO();
+  var q=leadSearch.trim().toLowerCase();
+  var list=S.leads.filter(function(l){
+    if(leadFilter!=="all" && l.status!==leadFilter) return false;
+    if(q){ var hay=((l.name||"")+" "+(l.address||"")+" "+(l.phone||"")+" "+(l.notes||"")).toLowerCase(); if(hay.indexOf(q)<0) return false; }
+    return true;
+  });
+  // sort: active follow-ups (due soonest) first, then by date desc
+  list.sort(function(a,b){
+    var af=(a.followUpDate&&(a.status==="new"||a.status==="quoted"))?a.followUpDate:"9999";
+    var bf=(b.followUpDate&&(b.status==="new"||b.status==="quoted"))?b.followUpDate:"9999";
+    if(af!==bf) return af<bf?-1:1;
+    return (a.date<b.date)?1:-1;
+  });
+  if(!list.length){
+    host.innerHTML='<div class="card empty"><div class="big">📋</div>'+(S.leads.length?'No leads match this filter.':'No leads yet. Log every door, text, and DM the moment it happens — if it’s not here, you’ll forget to follow up.')+'</div>';
+    return;
+  }
+  host.innerHTML=list.map(function(l){
+    var nx=nextStatus(l.status);
+    var fu="";
+    if(l.followUpDate&&(l.status==="new"||l.status==="quoted")){
+      var cls=l.followUpDate<t?"overdue":(l.followUpDate===t?"due":"muted");
+      fu='<span class="'+cls+' tiny">Follow-up '+fmtDate(l.followUpDate)+'</span>';
+    }
+    var acts="";
+    acts+='<button class="btn btn-ghost btn-sm" data-edit="'+l.id+'">Edit</button>';
+    if(l.status==="quoted"){ acts+='<button class="btn btn-outline btn-sm" data-logfu="'+l.id+'">Log follow-up</button>'; }
+    if(nx){ acts+='<button class="btn btn-primary btn-sm" data-adv="'+l.id+'">→ '+nx+'</button>'; }
+    if(l.status!=="lost"&&l.status!=="no"&&l.status!=="done"&&l.status!=="reviewed"){ acts+='<button class="btn btn-ghost btn-sm" data-lost="'+l.id+'">Lost</button>'; }
+    var phoneLink = l.phone? '<a href="tel:'+attr(l.phone.replace(/[^0-9+]/g,""))+'" class="linklike">'+esc(l.phone)+'</a>' : '';
+    return '<div class="item">'+
+      '<div class="top"><div class="grow"><div class="nm">'+esc(l.name||"(no name)")+'</div>'+
+        '<div class="meta">'+fmtDate(l.date)+' · '+esc(sourceLabel(l.source))+(l.address?' · '+esc(l.address):'')+'</div>'+
+        (phoneLink?'<div class="meta">'+phoneLink+'</div>':'')+'</div>'+
+        '<div style="text-align:right">'+statusBadge(l.status)+(l.quote!=null?'<div class="tiny" style="margin-top:4px;font-weight:700">'+money(l.quote)+'</div>':'')+'</div></div>'+
+      '<div class="tags">'+serviceTagsHTML(l.services)+' '+fu+'</div>'+
+      (l.notes?'<div class="tiny muted" style="margin-top:7px">'+esc(l.notes)+'</div>':'')+
+      '<div class="acts">'+acts+'</div>'+
+    '</div>';
+  }).join("");
+  $all("[data-edit]",host).forEach(function(b){ b.onclick=function(){ openLeadEditor(byId(b.getAttribute("data-edit")),false); }; });
+  $all("[data-adv]",host).forEach(function(b){ b.onclick=function(){ advanceLead(byId(b.getAttribute("data-adv"))); }; });
+  $all("[data-lost]",host).forEach(function(b){ b.onclick=function(){ markLost(byId(b.getAttribute("data-lost"))); }; });
+  $all("[data-logfu]",host).forEach(function(b){ b.onclick=function(){ openLogFollow(byId(b.getAttribute("data-logfu"))); }; });
+}
+function byId(id){ return S.leads.filter(function(x){return x.id===id;})[0]; }
+function sourceLabel(k){ for(var i=0;i<SOURCES.length;i++){ if(SOURCES[i][0]===k) return SOURCES[i][1]; } return k||""; }
+function serviceTagsHTML(keys){ if(!keys||!keys.length) return '<span class="tag">no service set</span>'; return keys.map(function(k){ return '<span class="tag">'+esc(SERVICES[k]?SERVICES[k].short:k)+'</span>'; }).join(" "); }
+function openLogFollow(lead){
+  openModal("Log follow-up — "+esc(lead.name||"lead"),
+    '<p class="tiny muted" style="margin-top:0">Records this touch and pushes the next follow-up to +3 days (72h). Rule: 24h then 72h, two touches minimum before lost.</p>'+
+    '<label class="field"><span>Note (optional)</span><input id="fuNote" placeholder="Sent 24h text / left voicemail"></label>'+
+    '<div class="modal-actions"><button class="btn btn-ghost" data-close>Cancel</button><button class="btn btn-primary" id="fuSave">Log it</button></div>',
+    function(wrap,close){
+      $("#fuSave",wrap).onclick=function(){ logFollowUp(lead,$("#fuNote",wrap).value.trim()); close(); toast("Follow-up logged • next "+fmtDate(lead.followUpDate)); rerender(); };
+    });
+}
+
+/* ============================================================
+   TAB: QUOTE (calculator)
+   ============================================================ */
+var qState={ founding:true, driveway:"", house:"", "patio-deck":"", fenceFt:"", bins:"", leadId:"", name:"", day:"" };
+function renderQuote(v){
+  var comp=computeQuote();
+  // build service selectors
+  function tierSelect(key){
+    var opts='<option value="">— none —</option>'+SERVICES[key].tiers.map(function(tr){ return '<option value="'+tr.v+'"'+(String(qState[key])===String(tr.v)?" selected":"")+'>'+esc(tr.t)+'</option>'; }).join("");
+    return '<label class="field"><span>'+esc(SERVICES[key].label)+'</span><select data-svc="'+key+'">'+opts+'</select></label>';
+  }
+  var leadOpts='<option value="">— not linked —</option>'+S.leads.filter(function(l){return l.status!=="lost"&&l.status!=="no";}).map(function(l){ return '<option value="'+l.id+'"'+(qState.leadId===l.id?" selected":"")+'>'+esc(l.name||"(no name)")+' · '+esc(sourceLabel(l.source))+'</option>'; }).join("");
+
+  v.innerHTML=
+    '<div class="tabtitle">Quote calculator</div>'+
+    '<div class="card">'+
+      '<div class="checkrow'+(qState.founding?" on":"")+'" style="margin-bottom:12px"><input type="checkbox" id="qFounding" '+(qState.founding?"checked":"")+'><label for="qFounding">Founding-customer 20% (first 10 jobs)</label></div>'+
+      tierSelect("driveway")+tierSelect("house")+tierSelect("patio-deck")+
+      '<label class="field"><span>Fence Washing — linear feet ('+money(SERVICES.fence.rate)+'/ln ft, $150 min)</span><input type="number" inputmode="numeric" min="0" data-fence="1" value="'+attr(qState.fenceFt)+'" placeholder="e.g. 150"></label>'+
+      '<label class="field"><span>Trash Bin Cleaning — add-on (never discounted)</span><select data-svc="bins"><option value="">— none —</option>'+SERVICES.bins.tiers.map(function(tr){return '<option value="'+tr.v+'"'+(String(qState.bins)===String(tr.v)?" selected":"")+'>'+esc(tr.t)+'</option>';}).join("")+'</select></label>'+
+    '</div>'+
+    '<div class="card"><h3>The math</h3><div id="qMath">'+mathHTML(comp)+'</div></div>'+
+    '<div class="card"><h3>Text-message quote</h3>'+
+      '<div class="form-2">'+
+        '<label class="field"><span>Customer name</span><input id="qName" value="'+attr(qState.name)+'" placeholder="Maria"></label>'+
+        '<label class="field"><span>Day offered</span><input id="qDay" value="'+attr(qState.day)+'" placeholder="Thursday"></label>'+
+      '</div>'+
+      '<textarea class="msg" id="qMsg" readonly>'+esc(quoteMessage(comp))+'</textarea>'+
+      '<div class="btnwrap" style="margin-top:10px"><button class="btn btn-primary" id="qCopy">Copy quote</button></div>'+
+    '</div>'+
+    '<div class="card"><h3>Save to lead</h3>'+
+      '<label class="field"><span>Link this quote to a lead</span><select id="qLead">'+leadOpts+'</select></label>'+
+      '<button class="btn btn-navy btn-block" id="qSave"'+(comp.total<=0?" disabled":"")+'>Save quote → sets status “quoted” ('+money(comp.total)+')</button>'+
+      '<div class="tiny muted" style="margin-top:8px">Sets the lead’s Quote $, services, status=quoted, and follow-up +1 day (24h).</div>'+
+    '</div>';
+
+  // wire
+  $all("[data-svc]",v).forEach(function(sel){ sel.onchange=function(){ qState[sel.getAttribute("data-svc")]=sel.value; refreshQuote(v); }; });
+  var ff=$("[data-fence]",v); ff.oninput=function(){ qState.fenceFt=ff.value; refreshQuote(v); };
+  var fc=$("#qFounding",v); fc.onchange=function(){ qState.founding=fc.checked; fc.closest(".checkrow").classList.toggle("on",fc.checked); refreshQuote(v); };
+  $("#qName",v).oninput=function(){ qState.name=this.value; refreshMsg(); };
+  $("#qDay",v).oninput=function(){ qState.day=this.value; refreshMsg(); };
+  $("#qLead",v).onchange=function(){
+    qState.leadId=this.value;
+    var l=byId(this.value);
+    if(l && !qState.name){ qState.name=(l.name||"").split(" ")[0]; var nm=$("#qName",v); if(nm) nm.value=qState.name; refreshMsg(); }
+  };
+  $("#qCopy",v).onclick=function(){ copyText(quoteMessage(computeQuote())); };
+  $("#qSave",v).onclick=function(){ saveQuoteToLead(); };
+}
+function refreshQuote(v){
+  var comp=computeQuote();
+  var m=el("qMath"); if(m) m.innerHTML=mathHTML(comp);
+  refreshMsg();
+  var sv=$("#qSave"); if(sv){ sv.disabled=comp.total<=0; sv.textContent='Save quote → sets status “quoted” ('+money(comp.total)+')'; }
+}
+function refreshMsg(){ var ta=el("qMsg"); if(ta) ta.value=quoteMessage(computeQuote()); }
+function selectedServiceKeys(){
+  var keys=[];
+  ["driveway","house","patio-deck"].forEach(function(k){ if(qState[k]) keys.push(k); });
+  if(parseFloat(qState.fenceFt)>0) keys.push("fence");
+  if(qState.bins) keys.push("bins");
+  return keys;
+}
+function computeQuote(){
+  var lines=[]; var serviceSubtotal=0, binTotal=0, nBundle=0;
+  ["driveway","house","patio-deck"].forEach(function(k){
+    var p=parseFloat(qState[k]); if(p>0){ lines.push({key:k,label:SERVICES[k].short,price:p,bundle:true}); serviceSubtotal+=p; nBundle++; }
+  });
+  var ft=parseFloat(qState.fenceFt);
+  if(ft>0){ var fp=Math.round(ft*SERVICES.fence.rate); lines.push({key:"fence",label:"Fence ("+ft+" ln ft)",price:fp,bundle:true}); serviceSubtotal+=fp; nBundle++; }
+  var bp=parseFloat(qState.bins);
+  if(bp>0){ binTotal=bp; lines.push({key:"bins",label:SERVICES.bins.short,price:bp,bundle:false}); }
+
+  var bundleRate = nBundle>=3?0.15 : (nBundle===2?0.10 : 0);
+  var foundingRate = qState.founding?0.20:0;
+  var bundleAmt = serviceSubtotal*bundleRate;
+  var foundingAmt = serviceSubtotal*foundingRate;
+  var appliedType="none", appliedRate=0, appliedAmt=0;
+  if(foundingAmt>0 && foundingAmt>=bundleAmt){ appliedType="founding"; appliedRate=foundingRate; appliedAmt=foundingAmt; }
+  else if(bundleAmt>0){ appliedType="bundle"; appliedRate=bundleRate; appliedAmt=bundleAmt; }
+  var discounted = serviceSubtotal - appliedAmt;
+  var floored=false;
+  if(serviceSubtotal>0 && discounted<MIN_JOB){ discounted=MIN_JOB; floored=true; }
+  var finalServices = serviceSubtotal>0?Math.round(discounted):0;
+  var total = finalServices + Math.round(binTotal);
+  return { lines:lines, serviceSubtotal:serviceSubtotal, binTotal:Math.round(binTotal), nBundle:nBundle,
+    bundleRate:bundleRate, foundingRate:foundingRate, bundleAmt:bundleAmt, foundingAmt:foundingAmt,
+    appliedType:appliedType, appliedRate:appliedRate, appliedAmt:Math.round(appliedAmt), floored:floored,
+    finalServices:finalServices, total:total, keys:selectedServiceKeys() };
+}
+function mathHTML(c){
+  if(!c.lines.length){ return '<div class="empty tiny">Pick one or more services above to build a quote.</div>'; }
+  var h="";
+  c.lines.forEach(function(li){
+    var isBin = li.key==="bins";
+    h+='<div class="mathline"><span>'+esc(li.label)+(isBin?' <span class="tiny muted">(add-on)</span>':'')+'</span><span class="amt">'+money(li.price)+'</span></div>';
+  });
+  if(c.serviceSubtotal>0){
+    h+='<div class="mathline"><span class="muted">Services subtotal</span><span class="amt">'+money(c.serviceSubtotal)+'</span></div>';
+    // show both candidate discounts, mark the applied one
+    if(c.nBundle>=2){
+      var used=c.appliedType==="bundle";
+      h+='<div class="mathline sub"><span>'+(used?'✓ ':'')+'Bundle '+(c.nBundle>=3?'15%':'10%')+' ('+c.nBundle+' services)'+(used?'':' — not applied')+'</span><span class="'+(used?'':'strike')+'">−'+money(c.bundleAmt)+'</span></div>';
+    }
+    if(c.foundingRate>0){
+      var usedF=c.appliedType==="founding";
+      h+='<div class="mathline sub"><span>'+(usedF?'✓ ':'')+'Founding 20%'+(usedF?'':' — not applied')+'</span><span class="'+(usedF?'':'strike')+'">−'+money(c.foundingAmt)+'</span></div>';
+    }
+    if(c.appliedType!=="none"){
+      h+='<div class="mathline"><span>Discount applied <span class="tiny muted">(larger only, non-stacking)</span></span><span class="amt">−'+money(c.appliedAmt)+'</span></div>';
+    }
+    if(c.floored){ h+='<div class="note-warn">$150 minimum job charge applied — the discount would’ve dropped it below the floor.</div>'; }
+  }
+  if(c.binTotal>0){ h+='<div class="mathline sub"><span>Bins added on top (never discounted, never a bundle service)</span><span>+'+money(c.binTotal)+'</span></div>'; }
+  if(c.serviceSubtotal===0 && c.binTotal>0){ h+='<div class="note-warn">Bins-only visit doesn’t clear the $150 minimum. Bundle it onto a real service, or cluster 3+ neighbors on one street.</div>'; }
+  h+='<div class="mathline total"><span>Quote total</span><span class="amt">'+money(c.total)+'</span></div>';
+  return h;
+}
+var SVC_PHRASE={ driveway:"driveway wash", house:"house soft wash", "patio-deck":"patio & deck wash", fence:"fence soft wash", bins:"trash bin cleaning" };
+var SVC_DESC={
+  driveway:"Full surface clean + spot treatment on the staining — leaves it looking like new.",
+  house:"Low-pressure, surface-safe soft wash that kills the algae/mildew and brightens the siding without blasting it.",
+  "patio-deck":"Surface-matched cleaning that lifts the ground-in dirt and algae, pressure dialed to the surface.",
+  fence:"Gentle soft wash that clears the green and gray weathering — no furring the wood or knocking vinyl loose.",
+  bins:"Scrubbed, disinfected, and deodorized inside and out."
+};
+function quoteMessage(c){
+  var name=(qState.name||"").trim()||"[name]";
+  var day=(qState.day||"").trim()||"[day]";
+  var owner=(S.settings.owner||"").trim();
+  var nonBin=c.keys.filter(function(k){return k!=="bins";});
+  if(!c.lines.length){ return "Pick a service to generate the quote text."; }
+  var title, desc;
+  if(nonBin.length>=2){
+    title = nonBin.map(function(k){return SVC_PHRASE[k];}).join(" + ");
+    desc = "Whole job done in one visit — " + nonBin.map(function(k){return SERVICES[k].short.toLowerCase();}).join(", ") + ". One trip, one clean-looking property.";
+  } else if(nonBin.length===1){
+    title = SVC_PHRASE[nonBin[0]];
+    desc = SVC_DESC[nonBin[0]];
+  } else {
+    title = SVC_PHRASE["bins"]; desc = SVC_DESC["bins"];
+  }
+  var titleCap = title.charAt(0).toUpperCase()+title.slice(1);
+  var msg = "Thanks "+name+"! Here’s your quote:\n\n";
+  msg += "*"+titleCap+" — "+money(c.total)+"*\n"+desc+"\n";
+  if(c.keys.indexOf("bins")>=0){ msg += "(Includes trash bin cleaning as an add-on.)\n"; }
+  msg += "\n";
+  if(c.appliedType==="founding"){
+    msg += "Since you’d be one of my first 10 customers, that already includes *20% off* (founding-customer launch deal).\n\n";
+  } else if(c.appliedType==="bundle"){
+    msg += "That’s already discounted — one trip, one setup, more done.\n\n";
+  }
+  msg += "I’ve got *"+day+"* open — want me to lock it in? Just reply “yes” and I’ll send the details.\n";
+  msg += "\n— "+(owner?owner+", ":"")+"Orbit PowerWash · "+BIZ.phone;
+  return msg;
+}
+function saveQuoteToLead(){
+  var c=computeQuote();
+  if(c.total<=0){ toast("Add a service first"); return; }
+  var id=qState.leadId;
+  var l = id? byId(id) : null;
+  function apply(lead){
+    lead.quote=c.total;
+    lead.services = c.keys.slice();
+    if(lead.status==="new"||!lead.status){ setStatus(lead,"quoted"); }
+    else { lead.updatedAt=todayISO(); save(); }
+    toast("Quote "+money(c.total)+" saved to "+(lead.name||"lead"));
+    rerender();
+  }
+  if(l){ apply(l); }
+  else{
+    // create a new lead from this quote
+    var nl=blankLead();
+    nl.name=(qState.name||"").trim();
+    nl.services=c.keys.slice();
+    S.leads.push(nl);
+    qState.leadId=nl.id;
+    apply(nl);
+    toast("New lead created + quoted "+money(c.total));
+  }
+}
+
+/* ============================================================
+   TAB: JOBS
+   ============================================================ */
+function renderJobs(v){
+  var booked=S.leads.filter(function(l){ return l.status==="booked"; })
+    .sort(function(a,b){ return (a.jobDate||"9999")<(b.jobDate||"9999")?-1:1; });
+  var recentDone=S.leads.filter(function(l){ return l.status==="done"; })
+    .sort(function(a,b){ return (a.doneDate||"")<(b.doneDate||"")?1:-1; }).slice(0,6);
+
+  var html='<div class="tabtitle">Booked jobs</div>';
+  if(!booked.length){
+    html+='<div class="card empty"><div class="big">🚐</div>No booked jobs. Move a lead to <b>booked</b> from Leads or advance it after a “yes.”</div>';
+  } else {
+    html+=booked.map(jobCard).join("");
+  }
+  if(recentDone.length){
+    html+='<div class="tabtitle" style="margin-top:18px">Recently done</div>'+recentDone.map(function(l){
+      return '<div class="item"><div class="top"><div class="grow"><div class="nm">'+esc(l.name)+'</div><div class="meta">'+serviceLabel(l.services)+' · done '+fmtDate(l.doneDate)+(l.quote!=null?' · '+money(l.quote):'')+'</div></div>'+statusBadge(l.status)+'</div>'+
+        '<div class="acts"><button class="btn btn-outline btn-sm" data-review="'+l.id+'">Review-ask text</button><button class="btn btn-ghost btn-sm" data-edit2="'+l.id+'">Open</button></div></div>';
+    }).join("");
+  }
+  v.innerHTML=html;
+
+  $all("[data-day]",v).forEach(function(b){ b.onclick=function(){ jobText(byId(b.getAttribute("data-day")),"day"); }; });
+  $all("[data-omw]",v).forEach(function(b){ b.onclick=function(){ jobText(byId(b.getAttribute("data-omw")),"omw"); }; });
+  $all("[data-review]",v).forEach(function(b){ b.onclick=function(){ jobText(byId(b.getAttribute("data-review")),"review"); }; });
+  $all("[data-done]",v).forEach(function(b){ b.onclick=function(){ openPayModal(byId(b.getAttribute("data-done"))); }; });
+  $all("[data-edit2]",v).forEach(function(b){ b.onclick=function(){ openLeadEditor(byId(b.getAttribute("data-edit2")),false); }; });
+}
+function jobCard(l){
+  var mapUrl = l.address? "https://www.google.com/maps/dir/?api=1&destination="+encodeURIComponent(l.address+", "+BIZ.areaInvoice) : "";
+  var when = l.jobDate? fmtDate(l.jobDate)+(l.jobWindow?' · '+esc(l.jobWindow):'') : 'no date set';
+  return '<div class="item">'+
+    '<div class="top"><div class="grow"><div class="nm">'+esc(l.name||"(no name)")+'</div>'+
+      '<div class="meta"><b>'+when+'</b></div>'+
+      '<div class="meta">'+serviceLabel(l.services)+(l.quote!=null?' · '+money(l.quote):'')+'</div>'+
+      (l.address? '<div class="meta">'+(mapUrl?'<a href="'+attr(mapUrl)+'" target="_blank" rel="noopener" class="linklike">📍 '+esc(l.address)+' ↗</a>':esc(l.address))+'</div>':'')+
+      (l.phone?'<div class="meta"><a class="linklike" href="tel:'+attr(l.phone.replace(/[^0-9+]/g,""))+'">'+esc(l.phone)+'</a></div>':'')+'</div>'+
+      statusBadge(l.status)+'</div>'+
+    '<div class="acts">'+
+      '<button class="btn btn-ghost btn-sm" data-day="'+l.id+'">Day-before</button>'+
+      '<button class="btn btn-ghost btn-sm" data-omw="'+l.id+'">On my way</button>'+
+      '<button class="btn btn-outline btn-sm" data-review="'+l.id+'">Review ask</button>'+
+      '<button class="btn btn-primary btn-sm" data-done="'+l.id+'">Mark done → pay</button>'+
+    '</div></div>';
+}
+function jobText(l,kind){
+  if(!l) return;
+  var name=(l.name||"[name]");
+  var owner=(S.settings.owner||"").trim();
+  var oc = owner?owner:"[your name]";
+  var svc=serviceDisplayPlain(l.services);
+  var when = l.jobDate? fmtDate(l.jobDate) : "[day]";
+  var time = l.jobWindow || "[time]";
+  var msg="", title="";
+  if(kind==="day"){
+    title="Day-before confirmation";
+    msg="Hi "+name+"! Confirming your "+svc+" washing with Orbit PowerWash tomorrow "+when+" around "+time+". Please clear any cars off the driveway, keep windows closed, and make sure your outdoor water spigot is on and reachable — I run off your outdoor water. I’ll handle the rest. Text me if anything changes! — "+oc+", "+BIZ.phone;
+  } else if(kind==="omw"){
+    title="On my way";
+    msg="Hi "+name+", it’s "+oc+" with Orbit PowerWash — I’m about 15 minutes out for your "+svc+" wash. See you shortly! "+BIZ.phone;
+  } else {
+    title="Review + referral ask (send same day)";
+    var link=(S.settings.reviewLink||"").trim()||"[paste your Google review link]";
+    msg="Hey "+name+", thanks so much for having me out today — it was great to meet you and I hope you love how the "+svc+" turned out! Two quick things if you have a sec:\n\n"+
+      "1) A Google review would mean the world to a new local business like mine — here’s the link: "+link+"\n"+
+      "2) If you know a neighbor whose place could use it, send them my way — I’ll take great care of them too. "+BIZ.phone+"\n\n"+
+      "Thanks again! — "+oc+", Orbit PowerWash";
+    // mark review asked
+    if(!l.reviewAskDate){ l.reviewAskDate=todayISO(); save(); }
+  }
+  openModal(title,
+    '<textarea class="msg" readonly style="min-height:180px">'+esc(msg)+'</textarea>'+
+    '<div class="modal-actions"><button class="btn btn-ghost" data-close>Close</button><button class="btn btn-primary" id="jtCopy">Copy text</button></div>',
+    function(wrap,close){ $("#jtCopy",wrap).onclick=function(){ copyText(msg); }; });
+}
+function serviceDisplayPlain(keys){
+  if(!keys||!keys.length) return "wash";
+  var names=keys.filter(function(k){return k!=="bins";}).map(function(k){
+    return ({driveway:"driveway",house:"house",'patio-deck':"patio & deck",fence:"fence"})[k]||k;
+  });
+  if(keys.indexOf("bins")>=0 && !names.length) return "trash bin";
+  if(!names.length) return "wash";
+  return names.join(" + ");
+}
+
+/* ============================================================
+   TAB: INVOICE
+   ============================================================ */
+var invoiceDraft=null;
+function newInvoiceDraft(){
+  return { date:todayISO(), name:"", address:"", phone:"", lines:[{desc:"",amount:""}], deposit:"", method:"", datePaid:"", invoiceNo:"", moneyId:null, leadId:null };
+}
+function startInvoiceFromLead(lead, moneyRow){
+  invoiceDraft = newInvoiceDraft();
+  invoiceDraft.name=lead.name||"";
+  invoiceDraft.address=lead.address||"";
+  invoiceDraft.phone=lead.phone||"";
+  invoiceDraft.leadId=lead.id;
+  var amt = moneyRow? moneyRow.amount : (lead.quote!=null?lead.quote:"");
+  invoiceDraft.lines=[{desc:invoiceLineDesc(lead.services), amount:amt}];
+  if(moneyRow){ invoiceDraft.moneyId=moneyRow.id; invoiceDraft.method=moneyRow.method||""; invoiceDraft.datePaid=todayISO(); }
+  go("invoice");
+}
+function invoiceLineDesc(keys){
+  if(!keys||!keys.length) return "Pressure washing service";
+  return keys.map(function(k){ return SERVICES[k]?SERVICES[k].label:k; }).join(" + ");
+}
+function renderInvoice(v){
+  if(!invoiceDraft) invoiceDraft=newInvoiceDraft();
+  var d=invoiceDraft;
+  var leadOpts='<option value="">— load from a job/lead —</option>'+S.leads.map(function(l){ return '<option value="'+l.id+'">'+esc(l.name||"(no name)")+' · '+serviceLabel(l.services)+(l.quote!=null?' · '+money(l.quote):'')+'</option>'; }).join("");
+  var nextNo = d.invoiceNo || pad4(S.invoiceSeq+1);
+  var lineRows=d.lines.map(function(li,i){
+    return '<div class="row" style="gap:8px;margin-bottom:8px"><input data-liDesc="'+i+'" placeholder="Description" value="'+attr(li.desc)+'" style="flex:1">'+
+      '<input data-liAmt="'+i+'" type="number" inputmode="decimal" step="0.01" placeholder="0" value="'+attr(li.amount)+'" style="width:96px">'+
+      (d.lines.length>1?'<button class="btn btn-ghost btn-icon btn-sm" data-liDel="'+i+'">✕</button>':'')+'</div>';
+  }).join("");
+
+  v.innerHTML=
+    '<div class="tabtitle">Invoice / receipt</div>'+
+    '<div class="card">'+
+      '<div class="spread" style="margin-bottom:12px"><div><div class="tiny muted">Invoice number</div><div style="font-size:22px;font-weight:800">#'+nextNo+(d.invoiceNo?'':' <span class="tiny muted" style="font-weight:600">(next — not yet assigned)</span>')+'</div></div>'+
+        (d.invoiceNo?'':'<button class="btn btn-navy btn-sm" id="invAssign">Assign #</button>')+'</div>'+
+      '<label class="field"><span>Prefill from lead</span><select id="invLead">'+leadOpts+'</select></label>'+
+      '<label class="field"><span>Bill to (name)</span><input id="invName" value="'+attr(d.name)+'"></label>'+
+      '<label class="field"><span>Service address</span><input id="invAddr" value="'+attr(d.address)+'"></label>'+
+      '<div class="form-2"><label class="field"><span>Phone</span><input id="invPhone" value="'+attr(d.phone)+'"></label>'+
+        '<label class="field"><span>Invoice date</span><input id="invDate" type="date" value="'+attr(d.date)+'"></label></div>'+
+      '<div class="field"><span style="display:block;font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:5px">Line items</span>'+lineRows+
+        '<button class="btn btn-outline btn-sm" id="invAddLine">+ Add line</button></div>'+
+      '<div class="form-2"><label class="field"><span>Deposit paid (optional)</span><input id="invDep" type="number" inputmode="decimal" step="0.01" value="'+attr(d.deposit)+'" placeholder="0"></label>'+
+        '<label class="field"><span>Paid via (blank = invoice)</span><select id="invMethod"><option value="">— unpaid (invoice) —</option>'+
+          ["Zelle","Cash","Venmo","Card"].map(function(m){return '<option'+(d.method===m?" selected":"")+'>'+m+'</option>';}).join("")+'</select></label></div>'+
+      '<label class="field"><span>Date paid (for receipt)</span><input id="invPaidDate" type="date" value="'+attr(d.datePaid)+'"></label>'+
+    '</div>'+
+    '<div class="card"><h3>Preview</h3><pre class="doc" id="invPreview">'+esc(invoiceText(d))+'</pre>'+
+      '<div class="btnwrap" style="margin-top:10px"><button class="btn btn-primary" id="invCopy">Copy</button><button class="btn btn-navy" id="invPrint">Print / PDF</button></div>'+
+      '<button class="btn btn-ghost btn-block btn-sm" id="invNew" style="margin-top:8px">Start blank invoice</button>'+
+    '</div>';
+
+  // wire
+  var assign=$("#invAssign",v); if(assign) assign.onclick=function(){ assignInvoiceNo(); };
+  $("#invLead",v).onchange=function(){ var l=byId(this.value); if(l){ prefillInvoice(l); } };
+  $("#invName",v).oninput=function(){ d.name=this.value; refreshInvPreview(); };
+  $("#invAddr",v).oninput=function(){ d.address=this.value; refreshInvPreview(); };
+  $("#invPhone",v).oninput=function(){ d.phone=this.value; refreshInvPreview(); };
+  $("#invDate",v).oninput=function(){ d.date=this.value; refreshInvPreview(); };
+  $("#invDep",v).oninput=function(){ d.deposit=this.value; refreshInvPreview(); };
+  $("#invMethod",v).onchange=function(){ d.method=this.value; refreshInvPreview(); };
+  $("#invPaidDate",v).oninput=function(){ d.datePaid=this.value; refreshInvPreview(); };
+  $all("[data-liDesc]",v).forEach(function(inp){ inp.oninput=function(){ d.lines[+inp.getAttribute("data-liDesc")].desc=inp.value; refreshInvPreview(); }; });
+  $all("[data-liAmt]",v).forEach(function(inp){ inp.oninput=function(){ d.lines[+inp.getAttribute("data-liAmt")].amount=inp.value; refreshInvPreview(); }; });
+  $all("[data-liDel]",v).forEach(function(b){ b.onclick=function(){ d.lines.splice(+b.getAttribute("data-liDel"),1); renderInvoice(v); }; });
+  $("#invAddLine",v).onclick=function(){ d.lines.push({desc:"",amount:""}); renderInvoice(v); };
+  $("#invCopy",v).onclick=function(){ copyText(invoiceText(d)); };
+  $("#invPrint",v).onclick=function(){ el("printArea").textContent=invoiceText(d); setTimeout(function(){ window.print(); },30); };
+  $("#invNew",v).onclick=function(){ invoiceDraft=newInvoiceDraft(); renderInvoice(v); };
+}
+function prefillInvoice(l){
+  invoiceDraft.name=l.name||"";
+  invoiceDraft.address=l.address||"";
+  invoiceDraft.phone=l.phone||"";
+  invoiceDraft.leadId=l.id;
+  invoiceDraft.lines=[{desc:invoiceLineDesc(l.services), amount:(l.quote!=null?l.quote:"")}];
+  renderInvoice(el("view"));
+}
+function refreshInvPreview(){ var p=el("invPreview"); if(p) p.textContent=invoiceText(invoiceDraft); }
+function assignInvoiceNo(){
+  if(invoiceDraft.invoiceNo){ return; }
+  S.invoiceSeq += 1;
+  invoiceDraft.invoiceNo = pad4(S.invoiceSeq);
+  save();
+  if(invoiceDraft.moneyId){ var m=S.money.filter(function(x){return x.id===invoiceDraft.moneyId;})[0]; if(m){ m.invoiceNo=invoiceDraft.invoiceNo; save(); } }
+  toast("Invoice #"+invoiceDraft.invoiceNo+" assigned");
+  renderInvoice(el("view"));
+}
+function pad4(n){ return String(n).padStart(4,"0"); }
+function invoiceText(d){
+  var W=60;
+  var dash="-".repeat(W);
+  var num = d.invoiceNo || pad4(S.invoiceSeq+1);
+  var lines=[];
+  lines.push("ORBIT POWERWASH");
+  lines.push(BIZ.areaInvoice);
+  lines.push(BIZ.phone+"  |  "+BIZ.email+"  |  "+BIZ.web);
+  lines.push("");
+  lines.push(dash);
+  lines.push("INVOICE / RECEIPT   #"+num);
+  lines.push("Date: "+(d.date||todayISO()));
+  lines.push("");
+  lines.push("Bill to:  "+(d.name||""));
+  lines.push("Address:  "+(d.address||""));
+  lines.push("Phone:    "+(d.phone||""));
+  lines.push(dash);
+  lines.push("");
+  lines.push(padRight("DESCRIPTION", W-6)+"AMOUNT");
+  var subtotal=0;
+  (d.lines||[]).forEach(function(li){
+    var amt=Math.round(parseFloat(li.amount)||0);
+    subtotal+=amt;
+    lines.push(invLine(li.desc||"", amt, W));
+  });
+  var dep=Math.round(parseFloat(d.deposit)||0);
+  var rule16=" ".repeat(W-16)+"-".repeat(16);
+  if(dep>0){
+    lines.push(rule16);
+    lines.push(amtRow("Deposit paid", "-$"+dep, W));
+  }
+  lines.push(rule16);
+  var total=subtotal-dep;
+  lines.push(amtRow("TOTAL DUE", "$"+total, W));
+  lines.push(dash);
+  lines.push("");
+  lines.push("Paid via: "+(d.method||"[Zelle / Cash / Venmo / Card]")+"   Date paid: "+(d.datePaid||"[______]"));
+  lines.push("");
+  lines.push("Thank you! Happy with the work? A quick Google review means");
+  lines.push("a lot to a local business — "+((S.settings.reviewLink||"").trim()||"[your review link]")+".");
+  return lines.join("\n");
+}
+function padRight(s,n){ s=String(s); return s.length>=n? s.slice(0,n) : s+" ".repeat(n-s.length); }
+function invLine(desc,amt,W){
+  var a="$"+amt;
+  var max=W-a.length-1;
+  var dsc=String(desc); if(dsc.length>max) dsc=dsc.slice(0,max);
+  var gap=W-dsc.length-a.length;
+  return dsc+" ".repeat(Math.max(1,gap))+a;
+}
+function amtRow(label,amt,W){
+  var indent=30;
+  var left=" ".repeat(indent)+label;
+  var gap=W-left.length-amt.length;
+  if(gap<1){ left=label; gap=W-left.length-amt.length; }
+  return left+" ".repeat(Math.max(1,gap))+amt;
+}
+
+/* ============================================================
+   TAB: MONEY
+   ============================================================ */
+function renderMoney(v){
+  var rows=S.money.slice().sort(function(a,b){ return (a.date<b.date)?1:(a.date>b.date?-1:0); });
+  // weekly grouping
+  var weeks={};
+  rows.forEach(function(m){ var w=weekStart(m.date); if(!weeks[w]) weeks[w]={inSum:0,outSum:0}; if(m.inOut==="In") weeks[w].inSum+=Number(m.amount)||0; else weeks[w].outSum+=Number(m.amount)||0; });
+  var thisWeek=weekStart(todayISO());
+  var tw=weeks[thisWeek]||{inSum:0,outSum:0};
+
+  var html='<div class="tabtitle">Money ledger</div>';
+  html+='<div class="card"><h3>This week ('+fmtDate(thisWeek)+' →)</h3><div class="weeksum">'+
+    '<div class="box"><div class="k">In</div><div class="v io-in">'+money(tw.inSum,true)+'</div></div>'+
+    '<div class="box"><div class="k">Out</div><div class="v io-out">'+money(tw.outSum,true)+'</div></div>'+
+    '<div class="box"><div class="k">Cleared</div><div class="v">'+money(tw.inSum-tw.outSum,true)+'</div></div>'+
+    '</div></div>';
+  html+='<div class="btnwrap" style="margin-bottom:12px"><button class="btn btn-primary" id="mAdd">+ Add row</button><button class="btn btn-ghost" id="mCSV">Export CSV</button></div>';
+
+  if(!rows.length){
+    html+='<div class="card empty"><div class="big">💰</div>No money rows yet. Every paid job is one <b>In</b> row; every fuel/chemical receipt is one <b>Out</b> row.</div>';
+  } else {
+    html+='<div class="tablewrap"><table class="ledger"><thead><tr>'+
+      '<th>Date</th><th>In/Out</th><th>Customer/Vendor</th><th>Description</th><th>Amount</th><th>Method</th><th>Invoice #</th><th>Receipt?</th><th></th></tr></thead><tbody>';
+    rows.forEach(function(m){
+      html+='<tr>'+
+        '<td>'+esc(m.date)+'</td>'+
+        '<td class="'+(m.inOut==="In"?"io-in":"io-out")+'">'+esc(m.inOut)+'</td>'+
+        '<td>'+esc(m.party||"")+'</td>'+
+        '<td>'+esc(m.description||"")+'</td>'+
+        '<td class="num">'+money(m.amount,true)+'</td>'+
+        '<td>'+esc(m.method||"")+'</td>'+
+        '<td>'+esc(m.invoiceNo||"")+'</td>'+
+        '<td><button class="btn btn-ghost btn-sm" data-rcpt="'+m.id+'" style="min-height:30px;padding:0 8px">'+(m.receiptSaved==="Y"?"Y ✓":"N")+'</button></td>'+
+        '<td><button class="btn btn-ghost btn-sm" data-medit="'+m.id+'" style="min-height:30px;padding:0 8px">Edit</button></td>'+
+      '</tr>';
+    });
+    html+='</tbody></table></div>';
+    // all-weeks summary
+    var wkeys=Object.keys(weeks).sort().reverse();
+    if(wkeys.length>1){
+      html+='<div class="card" style="margin-top:12px"><h3>Weekly totals</h3><div class="tablewrap"><table class="ledger"><thead><tr><th>Week of</th><th>In</th><th>Out</th><th>Cleared</th></tr></thead><tbody>'+
+        wkeys.map(function(w){ var x=weeks[w]; return '<tr><td>'+fmtDate(w)+'</td><td class="num io-in">'+money(x.inSum,true)+'</td><td class="num io-out">'+money(x.outSum,true)+'</td><td class="num">'+money(x.inSum-x.outSum,true)+'</td></tr>'; }).join("")+
+        '</tbody></table></div></div>';
+    }
+  }
+  v.innerHTML=html;
+
+  $("#mAdd",v).onclick=function(){ openMoneyEditor(null); };
+  $("#mCSV",v).onclick=function(){ exportMoneyCSV(); };
+  $all("[data-rcpt]",v).forEach(function(b){ b.onclick=function(){ var m=moneyById(b.getAttribute("data-rcpt")); if(m){ m.receiptSaved=m.receiptSaved==="Y"?"N":"Y"; save(); renderMoney(v); } }; });
+  $all("[data-medit]",v).forEach(function(b){ b.onclick=function(){ openMoneyEditor(moneyById(b.getAttribute("data-medit"))); }; });
+}
+function moneyById(id){ return S.money.filter(function(x){return x.id===id;})[0]; }
+function weekStart(iso){ var d=parseISO(iso); d.setDate(d.getDate()-d.getDay()); return isoOf(d); }
+function openMoneyEditor(m){
+  var isNew=!m;
+  var r = m || { id:uid(), date:todayISO(), inOut:"In", party:"", description:"", amount:"", method:"Zelle", invoiceNo:"", receiptSaved:"N" };
+  var body=
+    '<div class="form-2">'+
+      '<label class="field"><span>Date</span><input id="mDate" type="date" value="'+attr(r.date)+'"></label>'+
+      '<label class="field"><span>In / Out</span><select id="mIO"><option'+(r.inOut==="In"?" selected":"")+'>In</option><option'+(r.inOut==="Out"?" selected":"")+'>Out</option></select></label>'+
+    '</div>'+
+    '<label class="field"><span>Customer / Vendor</span><input id="mParty" value="'+attr(r.party)+'"></label>'+
+    '<label class="field"><span>Description</span><input id="mDesc" value="'+attr(r.description)+'" placeholder="Driveway Washing / Fuel / Chemicals"></label>'+
+    '<div class="form-2">'+
+      '<label class="field"><span>Amount</span><input id="mAmt" type="number" inputmode="decimal" step="0.01" value="'+attr(r.amount)+'"></label>'+
+      '<label class="field"><span>Method</span><select id="mMethod">'+["Zelle","Cash","Venmo","Card","Other"].map(function(x){return '<option'+(r.method===x?" selected":"")+'>'+x+'</option>';}).join("")+'</select></label>'+
+    '</div>'+
+    '<div class="form-2">'+
+      '<label class="field"><span>Invoice #</span><input id="mInv" value="'+attr(r.invoiceNo)+'" placeholder="0001"></label>'+
+      '<label class="field"><span>Receipt saved?</span><select id="mRcpt"><option'+(r.receiptSaved==="Y"?" selected":"")+'>Y</option><option'+(r.receiptSaved!=="Y"?" selected":"")+'>N</option></select></label>'+
+    '</div>'+
+    '<div class="modal-actions">'+
+      (isNew?'':'<button class="btn btn-danger btn-sm" id="mDel" style="flex:0 0 auto">Delete</button>')+
+      '<button class="btn btn-ghost" data-close>Cancel</button><button class="btn btn-primary" id="mSave">Save</button></div>';
+  openModal(isNew?"Add money row":"Edit money row", body, function(wrap,close){
+    $("#mSave",wrap).onclick=function(){
+      r.date=$("#mDate",wrap).value||todayISO();
+      r.inOut=$("#mIO",wrap).value;
+      r.party=$("#mParty",wrap).value.trim();
+      r.description=$("#mDesc",wrap).value.trim();
+      r.amount=parseFloat($("#mAmt",wrap).value)||0;
+      r.method=$("#mMethod",wrap).value;
+      r.invoiceNo=$("#mInv",wrap).value.trim();
+      r.receiptSaved=$("#mRcpt",wrap).value;
+      if(isNew) S.money.push(r);
+      save(); close(); toast(isNew?"Row added":"Saved"); renderMoney(el("view"));
+    };
+    if(!isNew){ $("#mDel",wrap).onclick=function(){ close(); confirmDialog("Delete this money row?", function(){ S.money=S.money.filter(function(x){return x.id!==r.id;}); save(); toast("Deleted"); renderMoney(el("view")); }, "Delete", true); }; }
+  });
+}
+
+/* ============================================================
+   CSV / JSON export + import
+   ============================================================ */
+function csvCell(v){ v=(v==null?"":String(v)); if(/[",\r\n]/.test(v)){ return '"'+v.replace(/"/g,'""')+'"'; } return v; }
+function toCSV(rows){ return rows.map(function(r){ return r.map(csvCell).join(","); }).join("\r\n"); }
+function exportLeadsCSV(){
+  var head=["Date","Name","Address/Street","Source","Service","Status","Quote $","Follow-up Date","Notes"];
+  var rows=[head].concat(S.leads.map(function(l){
+    return [l.date,l.name,l.address,sourceLabel(l.source),serviceKeyLabel(l.services),l.status,(l.quote==null?"":l.quote),l.followUpDate||"",l.notes];
+  }));
+  download("orbitpw-leads-"+todayISO()+".csv", toCSV(rows), "text/csv;charset=utf-8");
+  toast("Leads CSV exported");
+}
+function exportMoneyCSV(){
+  var head=["Date","In / Out","Customer / Vendor","Description","Amount","Method","Invoice #","Receipt saved?"];
+  var rows=[head].concat(S.money.map(function(m){
+    return [m.date,m.inOut,m.party,m.description,(Number(m.amount)||0).toFixed(2),m.method,m.invoiceNo,m.receiptSaved];
+  }));
+  download("orbitpw-money-"+todayISO()+".csv", toCSV(rows), "text/csv;charset=utf-8");
+  toast("Money CSV exported");
+}
+function exportJSON(){ download("orbitpw-crm-backup-"+todayISO()+".json", JSON.stringify(S,null,2), "application/json"); toast("Backup downloaded"); }
+function importJSON(file){
+  var reader=new FileReader();
+  reader.onload=function(){
+    try{
+      var data=JSON.parse(reader.result);
+      if(!data || typeof data!=="object" || !Array.isArray(data.leads)){ toast("That file isn’t a valid backup"); return; }
+      confirmDialog("Import will REPLACE all current data ("+S.leads.length+" leads, "+S.money.length+" money rows) with the backup ("+data.leads.length+" leads). Continue?", function(){
+        var base=defaultState();
+        for(var k in data){ if(Object.prototype.hasOwnProperty.call(data,k)) base[k]=data[k]; }
+        if(!base.settings) base.settings={owner:"",reviewLink:""};
+        if(!base.doors) base.doors={};
+        S=base; save(); toast("Backup restored"); rerender();
+      }, "Replace all", true);
+    }catch(e){ toast("Couldn’t read that file"); }
+  };
+  reader.readAsText(file);
+}
+
+/* ============================================================
+   SETTINGS / BACKUP modal
+   ============================================================ */
+function openSettings(){
+  var s=S.settings;
+  openModal("Settings &amp; backup",
+    '<label class="field"><span>Your name (used in text templates)</span><input id="setOwner" value="'+attr(s.owner)+'" placeholder="e.g. Alex"></label>'+
+    '<label class="field"><span>Google review link (used in review-ask + receipts)</span><input id="setReview" value="'+attr(s.reviewLink)+'" placeholder="https://g.page/r/..."></label>'+
+    '<div class="divider"></div>'+
+    '<div class="tiny muted" style="margin-bottom:8px"><b>Backup habit:</b> export a JSON backup every night. All data lives only in this browser’s storage — clearing site data wipes it.</div>'+
+    '<div class="btnwrap"><button class="btn btn-navy" id="setExport">Export backup (JSON)</button><button class="btn btn-ghost" id="setImport">Import backup</button></div>'+
+    '<input type="file" id="setFile" accept="application/json,.json" style="display:none">'+
+    '<div class="btnwrap" style="margin-top:8px"><button class="btn btn-ghost" id="setLeadsCSV">Leads CSV</button><button class="btn btn-ghost" id="setMoneyCSV">Money CSV</button></div>'+
+    '<div class="divider"></div>'+
+    '<button class="btn btn-danger btn-block btn-sm" id="setReset">Reset all data</button>'+
+    '<div class="modal-actions"><button class="btn btn-primary" id="setSave">Save settings</button></div>',
+    function(wrap,close){
+      $("#setSave",wrap).onclick=function(){ s.owner=$("#setOwner",wrap).value.trim(); s.reviewLink=$("#setReview",wrap).value.trim(); save(); close(); toast("Settings saved"); rerender(); };
+      $("#setExport",wrap).onclick=exportJSON;
+      $("#setImport",wrap).onclick=function(){ $("#setFile",wrap).click(); };
+      $("#setFile",wrap).onchange=function(){ if(this.files&&this.files[0]){ importJSON(this.files[0]); close(); } };
+      $("#setLeadsCSV",wrap).onclick=exportLeadsCSV;
+      $("#setMoneyCSV",wrap).onclick=exportMoneyCSV;
+      $("#setReset",wrap).onclick=function(){ close(); confirmDialog("Erase ALL leads, money, and invoice numbers? Export a backup first if unsure.", function(){ S=defaultState(); save(); toast("All data reset"); go("today"); }, "Erase everything", true); };
+    });
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+el("settingsBtn").onclick=openSettings;
+renderTabbar();
+route();
+// expose a tiny bit for debugging in console
+window.__ORBIT={ get state(){ return S; } };
+</script>
+</body>
+</html>
