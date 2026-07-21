@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Orbit PowerWash — Business Card (print &amp; show)</title>
+<style>
+  :root{ --navy:#0a1a2b; --navy2:#0e2338; --cyan:#1fc9e2; --gold:#f4bb35; --on:#cbdae4; --dim:#8ba0af; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:#eef1f4; color:#15211d;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap{ max-width:44rem; margin:0 auto; padding:1.5rem 1.25rem 4rem; }
+  .instructions{ background:#fff; border:1px solid #e0e4e8; border-radius:.9rem; padding:1.1rem 1.25rem; margin-bottom:1.75rem; }
+  .instructions h1{ font-size:1.15rem; margin:0 0 .5rem; }
+  .instructions p{ margin:.4rem 0; font-size:.92rem; line-height:1.55; color:#3a464f; }
+  .instructions kbd{ background:#0a1a2b; color:#fff; border-radius:.35rem; padding:.1rem .45rem; font-size:.82rem; }
+  .instructions .no-print-note{ color:#0a6b79; font-weight:600; }
+
+  /* ---- The card ---- */
+  .card{
+    position:relative; overflow:hidden;
+    background:linear-gradient(150deg,var(--navy) 0%,var(--navy2) 100%);
+    color:#fff; border-radius:.7rem;
+    display:flex; flex-direction:column; justify-content:space-between;
+    isolation:isolate;
+  }
+  .card::before{ /* orbit ring watermark */
+    content:""; position:absolute; z-index:-1; right:-18%; top:22%;
+    width:78%; aspect-ratio:1; border-radius:50%;
+    border:2px solid var(--cyan); opacity:.16; transform:rotate(-22deg) scaleY(.42);
+  }
+  .card-top{ display:flex; align-items:center; gap:.5em; }
+  .card-top svg{ width:2.4em; height:2.4em; flex:0 0 auto; }
+  .wordmark{ font-size:1.15em; font-weight:800; letter-spacing:-.01em; line-height:1; }
+  .wordmark b{ color:var(--cyan); font-weight:800; }
+  .card-tag{ color:var(--on); font-size:.62em; font-weight:600; letter-spacing:.02em; }
+  .card-services{ color:var(--dim); font-size:.58em; font-weight:600; }
+  .card-contact{ display:grid; gap:.12em; }
+  .card-contact .c-phone{ color:var(--cyan); font-weight:800; font-size:.98em; letter-spacing:.01em; }
+  .card-contact .c-phone small{ color:var(--dim); font-weight:600; font-size:.62em; margin-left:.4em; letter-spacing:.04em; text-transform:uppercase; }
+  .card-contact span{ font-size:.72em; color:#eaf1f6; }
+  .card-accent{ position:absolute; left:0; top:0; bottom:0; width:.28em; background:var(--gold); z-index:-1; }
+
+  /* Screen: one big showable card (great for holding up to the camera / phone) */
+  .hero-card.card{ width:min(92vw,30rem); aspect-ratio:3.5/2; padding:1.35rem 1.5rem; margin:0 auto 1rem; box-shadow:0 1.5rem 3rem rgba(6,18,30,.28); font-size:clamp(15px,3.6vw,21px); }
+  .hero-label{ text-align:center; color:#3a464f; font-size:.82rem; margin:.25rem 0 2rem; }
+
+  /* Print sheet: exact 3.5in x 2in cards, 2 x 5 on US Letter */
+  .print-sheet{ display:none; }
+  @media screen{ .print-sheet{ display:none; } }
+
+  @media print{
+    @page{ size:Letter portrait; margin:0.5in 0.5in; }
+    body{ background:#fff; }
+    .wrap{ max-width:none; margin:0; padding:0; }
+    .instructions,.hero-card,.hero-label{ display:none !important; }
+    .print-sheet{
+      display:grid; grid-template-columns:3.5in 3.5in; grid-auto-rows:2in;
+      gap:0; justify-content:center;
+    }
+    .print-sheet .card{
+      width:3.5in; height:2in; padding:0.2in 0.24in; font-size:10.5pt;
+      border-radius:0; outline:1px dashed #c9d2d9; /* cut guide */
+      box-shadow:none; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    }
+    .print-sheet .card-accent{ display:block; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="instructions">
+      <h1>Your Orbit PowerWash business card</h1>
+      <p><strong>To show it on your phone</strong> (for Google verification or at a customer's door): just open this page — the big card below is ready to hold up to the camera.</p>
+      <p><strong>To print real cards:</strong> press <kbd>Ctrl/Cmd + P</kbd> → choose your printer (or "Save as PDF" and print at a library/UPS/Staples). It prints <strong>10 cards on one sheet</strong>. Turn on <span class="no-print-note">"Background graphics"</span> in the print dialog so the navy prints, then cut along the dashed lines. Cardstock looks best but regular paper works.</p>
+      <p>Want your name on it? Add a line yourself, or tell me and I'll drop in "<em>[Your name] · Owner</em>".</p>
+    </div>
+
+    <!-- Big on-screen card for showing / holding up to a camera -->
+    <div class="hero-card card">
+      <span class="card-accent"></span>
+      <div class="card-top">
+        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="64" height="64" rx="14" fill="#0a1a2b"/>
+          <ellipse cx="32" cy="34" rx="24" ry="10" fill="none" stroke="#1fc9e2" stroke-width="2.5" opacity="0.55" transform="rotate(-22 32 34)"/>
+          <path d="M32 12c7 9 12 15.5 12 22a12 12 0 0 1-24 0c0-6.5 5-13 12-22z" fill="#1fc9e2"/>
+          <path d="M28 30c-2 2.5-3 5-3 7.5" fill="none" stroke="#0a1a2b" stroke-width="2.4" stroke-linecap="round" opacity="0.55"/>
+        </svg>
+        <span class="wordmark">Orbit <b>PowerWash</b></span>
+      </div>
+      <div>
+        <div class="card-tag">Pressure &amp; Soft Washing · Plainsboro · West Windsor · Ewing, NJ</div>
+        <div class="card-services">Driveways · House Soft Wash · Patios &amp; Decks · Fences · Trash Bins</div>
+      </div>
+      <div class="card-contact">
+        <span class="c-phone">(609) 297-7412 <small>Call or text</small></span>
+        <span>quote@orbitpowerwash.com</span>
+        <span>orbitpowerwash.com &nbsp;·&nbsp; Owner-operated · Free same-day quotes</span>
+      </div>
+    </div>
+    <p class="hero-label">Screen preview — this is what prints, 10 to a sheet.</p>
+
+    <div class="print-sheet" id="sheet"></div>
+  </div>
+
+  <script>
+    // Clone the card 10x into the print sheet so printing yields a full page of cards.
+    var master = document.querySelector('.hero-card');
+    var sheet = document.getElementById('sheet');
+    for (var i = 0; i < 10; i++) {
+      var c = master.cloneNode(true);
+      c.classList.remove('hero-card');
+      sheet.appendChild(c);
+    }
+  </script>
+</body>
+</html>
