@@ -17,13 +17,15 @@ Google has a business type for exactly you: a **service-area business (SAB)**. O
 
 ## What Google's video verification actually asks for
 
-If Google asks for a **video**, it's usually one short (30–120 sec), **continuous, unedited** clip that shows **three things**. You don't need all the fancy stuff — you need to hit these:
+If Google asks for a **video**, it's usually one short (30–120 sec), **continuous, unedited** clip that shows **three things**.
 
-1. **You're real and in your service area.** Walk outside, show the street/neighborhood, say "Hi, I'm [your name] with Orbit PowerWash, serving Plainsboro, West Windsor and Ewing, New Jersey."
-2. **You actually do the work — show the tools.** This is your strongest proof. Pan across your **pressure washer, hoses, surface cleaner, chemicals/soft-wash setup, and your vehicle.** Gear beats paperwork.
-3. **You manage the business.** Show one or two "branded" items that tie you to the name (next section). This is the part you were worried about — and it's the easy part to fix.
+> ⚠️ **The rule here says NO TALKING.** So you don't narrate any of this — you **show** it. Everything below is proved with the camera, silently. That's fine: visual proof is actually what they weigh most, and you now have the props to show it.
 
-Keep it in **one take**, don't cut or edit it, and film in landscape with decent light.
+1. **You're real and in your service area.** No narration — establish it *visually*: film a nearby **street sign, town marker, or storefront/landmark** that shows you're in Plainsboro / West Windsor / Ewing, then yourself. Let the camera show where you are.
+2. **You actually do the work — show the tools.** This is your strongest proof. Slowly pan across your **pressure washer, hoses, surface cleaner, chemicals/soft-wash setup, and your vehicle.** Gear beats paperwork, and it needs no words.
+3. **You manage the business.** Hold up one or two "branded" items that tie you to the name (next section) — the camera reads them, you stay silent. This is the part you were worried about, and it's the easy part to fix.
+
+Keep it in **one take**, don't cut or edit it, film in **landscape** with decent light, and **hold each item still for 2–3 seconds** so the text is readable (since you're not saying it out loud).
 
 ---
 
@@ -56,16 +58,16 @@ None of these are required, but each makes you look more legit for verification 
 
 ---
 
-## The verification video — shot-by-shot script
+## The verification video — silent shot-by-shot
 
-Film this in one continuous take on your phone, landscape:
+**No talking.** One continuous take, phone in landscape. Move slowly and hold each thing steady for 2–3 seconds so the camera can read it. Nothing is spoken — the pictures do all the proving:
 
-1. **You + area (10 sec):** Face the camera outside. "Hi, I'm [your name], owner of Orbit PowerWash. We do pressure and soft washing here in Plainsboro, West Windsor and Ewing, New Jersey."
-2. **The gear (20–30 sec):** Walk to your equipment. "This is my setup — pressure washer, hoses, surface cleaner, and my soft-wash mix for house siding." Show the vehicle you load it in.
-3. **Proof of the business (15–20 sec):** Hold up your **business card**, then your phone showing **orbitpowerwash.com** (or a **CRM invoice**). "Here's my card, my website, and an invoice — Orbit PowerWash, (609) 297-7412."
-4. **Close (5 sec):** "That's Orbit PowerWash. Thanks for verifying my business."
+1. **Where you are (10–15 sec):** Film a **street sign or town landmark** in Plainsboro / West Windsor / Ewing, then pan to yourself. (Optional and strong: hold up a piece of **mail or a document addressed to Orbit PowerWash** so the name + local address show on camera — only if it's real.)
+2. **The gear (20–30 sec):** Slowly pan your **pressure washer, hoses, surface cleaner, and soft-wash setup**, then the **vehicle** you load it in. If there's a name on your shirt, magnet, or window sign, let it pass through frame.
+3. **Proof of the business (15–20 sec):** Hold up your **business card** (readable, 3 sec). Then your **phone showing orbitpowerwash.com**. Then a **CRM invoice/receipt** with your name, phone, and email. Let the camera rest on each — no need to say a word.
+4. **End:** Stop recording. Don't add captions, music, or edits.
 
-Steady, unedited, good light. That's it.
+Steady, silent, unedited, good light. That's it — the card, the site, the invoice, and the gear carry the whole thing.
 
 ---
 
