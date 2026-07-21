@@ -624,3 +624,32 @@ img { max-width: 100%; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* ---------- Town landing pages (helper classes) ---------- */
+.location-tag {
+  margin-bottom: 0.9rem;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--cyan-bright);
+}
+.trust-line {
+  max-width: 34rem; margin-top: 1.5rem; padding-top: 1.25rem;
+  border-top: 1px solid var(--line-dark);
+  color: var(--on-navy-dim); font-size: 0.9rem;
+}
+.service-list-plain {
+  margin: 1.75rem 0; padding: 0; list-style: none;
+  display: grid; gap: 0.85rem;
+}
+.service-list-plain li {
+  position: relative; padding-left: 1.4rem; color: var(--muted);
+  max-width: 46rem; line-height: 1.6;
+}
+.service-list-plain li::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--cyan);
+}
+.service-list-plain strong { color: var(--ink); }
+.cta-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.85rem;
+  margin-top: 2rem; color: var(--muted);
+}
