@@ -2,6 +2,7 @@
   "name": "orbit-powerwash",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,6 +12,10 @@
     "vite": "^7.0.0"
   },
   "dependencies": {
+    "@coinbase/x402": "^2.1.0",
+    "@vercel/functions": "^3.9.11",
+    "@x402/core": "^2.28.0",
+    "@x402/evm": "^2.28.0",
     "framer-motion": "^12.42.2",
     "posthog-js": "^1.405.2",
     "react": "^19.2.7",
